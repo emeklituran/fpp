@@ -75,10 +75,14 @@ jobs:
           retention-days: 7
 
   device:
-    name: Emülatör testleri (Android 15)
+    name: Emülatör testleri (Android 15) – parça ${{ matrix.shard }}
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -98,20 +102,18 @@ jobs:
           target: default
           arch: x86_64
           profile: pixel_6
-          cores: 4
-          ram-size: 4096M
-          heap-size: 512M
+          ram-size: 3072M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           working-directory: Galaxy_S25_Offline_Ecosystem
-          script: bash tools/device_tests.sh ../ci-artifact/build/ci
+          script: bash tools/device_tests.sh ../ci-artifact/build/ci ${{ matrix.shard }} 2
       - name: Rapor
         if: always()
-        run: cat ../ci-artifact/build/ci/device.md >> "$GITHUB_STEP_SUMMARY" || true
+        run: cat ../ci-artifact/build/ci/device-${{ matrix.shard }}.md >> "$GITHUB_STEP_SUMMARY" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: galaxy-device-report
+          name: galaxy-device-report-${{ matrix.shard }}
           path: |
-            ci-artifact/build/ci/device.md
+            ci-artifact/build/ci/device-*.md
             ci-artifact/build/ci/screenshots/
