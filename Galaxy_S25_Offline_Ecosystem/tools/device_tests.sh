@@ -64,8 +64,15 @@ for apk in "$CI"/release/*.apk; do
     # Uygulamayı tamamen kapatıp yeniden aç (veri kalıcılığı ve soğuk başlangıç).
     adb shell am force-stop "$pkg"
     t2=$(adb shell am start -W -n "$activity" | sed -n 's/^TotalTime: //p' | tr -d '\r')
-    sleep 2
-    [ -n "$(adb shell pidof "$pkg" | tr -d '\r')" ] && relaunch="TAMAM (${t2:-?} ms)" || { relaunch="BAŞARISIZ"; fail=1; }
+    alive=""
+    for _ in 1 2 3 4 5 6 7 8; do sleep 1; alive=$(adb shell pidof "$pkg" | tr -d '\r'); [ -n "$alive" ] && break; done
+    if [ -n "$alive" ]; then relaunch="TAMAM (${t2:-?} ms)"
+    else
+      relaunch="BAŞARISIZ"; fail=1
+      echo "----- $pkg yeniden açılış başarısız: tanılama -----"
+      adb logcat -d -b crash | tail -n 40
+      adb logcat -d | grep -E "$pkg|AndroidRuntime|ActivityManager" | tail -n 40
+    fi
     adb shell am force-stop "$pkg"
   fi
   # Cihaz üstü testler (varsa)

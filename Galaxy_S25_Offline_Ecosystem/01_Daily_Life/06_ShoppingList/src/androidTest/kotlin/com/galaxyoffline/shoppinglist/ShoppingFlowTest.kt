@@ -1,10 +1,11 @@
 package com.galaxyoffline.shoppinglist
 
+import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,12 +21,12 @@ class ShoppingFlowTest {
 
     @Test fun createListAndAddItem() {
         waitTag("fab_new")
-        rule.onNodeWithTag("fab_new").performClick()
+        rule.onNodeWithTag("fab_new").performSemanticsAction(SemanticsActions.OnClick)
         rule.onNodeWithTag("list_name").performTextReplacement("Hafta sonu")
-        rule.onNodeWithTag("list_ok").performClick()
+        rule.onNodeWithTag("list_ok").performSemanticsAction(SemanticsActions.OnClick)
         rule.waitUntil(8_000) { rule.onAllNodesWithText("Liste boş").fetchSemanticsNodes().isNotEmpty() }
         rule.onNodeWithTag("item_input").performTextInput("Domates")
-        rule.onNodeWithTag("item_add").performClick()
+        rule.onNodeWithTag("item_add").performSemanticsAction(SemanticsActions.OnClick)
         waitText("1 adet")
         rule.activityRule.scenario.recreate()
         waitText("Domates")

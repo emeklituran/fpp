@@ -19,6 +19,6 @@ class ConverterFlowTest {
         rule.waitUntil(10_000) { rule.onAllNodesWithTag("cat_temp").fetchSemanticsNodes().isNotEmpty() }
         rule.onNodeWithTag("cat_temp").performClick()
         rule.onNodeWithTag("value").performTextReplacement("100")
-        rule.onNodeWithTag("out_f").assertTextEquals("212 °F")
+        rule.onNodeWithTag("out_f", useUnmergedTree = true).assertTextEquals("212 °F")
     }
 }

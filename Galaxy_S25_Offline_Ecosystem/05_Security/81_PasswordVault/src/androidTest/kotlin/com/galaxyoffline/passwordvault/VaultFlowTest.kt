@@ -1,10 +1,11 @@
 package com.galaxyoffline.passwordvault
 
+import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
@@ -21,18 +22,18 @@ class VaultFlowTest {
         waitTag("setup_pw")
         rule.onNodeWithTag("setup_pw").performTextInput("TestSifre!2026")
         rule.onNodeWithTag("setup_confirm").performTextInput("TestSifre!2026")
-        rule.onNodeWithTag("setup_ok").performClick()
-        rule.onNodeWithTag("setup_create").performClick()
+        rule.onNodeWithTag("setup_ok").performSemanticsAction(SemanticsActions.OnClick)
+        rule.onNodeWithTag("setup_create").performSemanticsAction(SemanticsActions.OnClick)
         waitTag("fab_new")
-        rule.onNodeWithTag("fab_new").performClick()
+        rule.onNodeWithTag("fab_new").performSemanticsAction(SemanticsActions.OnClick)
         rule.onNodeWithTag("item_title").performTextInput("Banka")
         rule.onNodeWithTag("item_secret").performTextInput("abc-XYZ-987")
-        rule.onNodeWithTag("item_save").performClick()
+        rule.onNodeWithTag("item_save").performSemanticsAction(SemanticsActions.OnClick)
         rule.waitUntil(15_000) { rule.onAllNodesWithTag("lock").fetchSemanticsNodes().isNotEmpty() && rule.onAllNodesWithText("Banka").fetchSemanticsNodes().isNotEmpty() }
-        rule.onNodeWithTag("lock").performClick()
+        rule.onNodeWithTag("lock").performSemanticsAction(SemanticsActions.OnClick)
         waitTag("master_password")
         rule.onNodeWithTag("master_password").performTextInput("TestSifre!2026")
-        rule.onNodeWithTag("unlock").performClick()
+        rule.onNodeWithTag("unlock").performSemanticsAction(SemanticsActions.OnClick)
         waitText("Banka")
     }
 }
