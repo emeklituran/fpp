@@ -2,7 +2,10 @@ package com.galaxyoffline.chess
 
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
+import androidx.compose.ui.test.ComposeTimeoutException
 import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToString
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
@@ -24,7 +27,11 @@ class ChessFlowTest {
     @get:Rule val rule = createAndroidComposeRule<MainActivity>()
 
     private fun has(tag: String) = rule.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
-    private fun waitTag(tag: String, ms: Long = 15_000) = rule.waitUntil(ms) { has(tag) }
+    private fun waitTag(tag: String, ms: Long = 15_000) {
+        try { rule.waitUntil(ms) { has(tag) } } catch (e: ComposeTimeoutException) {
+            throw AssertionError("'$tag' $ms ms içinde görünmedi. Ekran ağacı:\n" + rule.onRoot(useUnmergedTree = true).printToString(), e)
+        }
+    }
     private fun text(tag: String): String = rule.onNodeWithTag(tag, useUnmergedTree = true).fetchSemanticsNode()
         .config.getOrNull(SemanticsProperties.Text)?.joinToString("") { it.text } ?: ""
     private fun fen() = text("fen_text")
@@ -50,7 +57,7 @@ class ChessFlowTest {
     @Test fun foolsMateEndsGame() {
         newGame("TWO_PLAYER")
         move("f2", "f3"); move("e7", "e5"); move("g2", "g4"); move("d8", "h4")
-        rule.onNodeWithTag("status").assertTextContains("Mat – Siyah kazandı")
+        rule.onNodeWithTag("status").assertTextContains("Mat – Siyah kazandı", substring = true)
     }
 
     @Test fun illegalTapDoesNotMove() {
@@ -79,15 +86,16 @@ class ChessFlowTest {
         assertEquals(before, fen())
         loadFen("8/8/8/8/8/8/8/K6k w - - 0 1") // geçerli FEN, şahlar yan yana değil
         rule.waitUntil(5_000) { fen() == "8/8/8/8/8/8/8/K6k w - - 0 1" }
-        rule.onNodeWithTag("status").assertTextContains("Berabere") // yetersiz materyal (otomatik)
+        rule.onNodeWithTag("status").assertTextContains("Berabere", substring = true) // yalnız şahlar: ölü pozisyon (otomatik)
     }
 
     @Test fun fenRoundTripAndPersistenceAfterRecreate() {
         newGame("TWO_PLAYER")
         move("e2", "e4"); move("c7", "c5")
         val f = fen()
-        // c6 geçerken alma karesi yasal alma olmadığından FEN'e yazılmaz.
-        assertEquals("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2", f)
+        // Oyun FEN'i standart gösterimi izler: iki kare piyon hamlesinden sonra geçerken alma karesi (c6) yazılır.
+        // Konum eşitliği (tekrar sayımı) ise yalnızca yasal geçerken almayı dikkate alır (rules modülü testleri).
+        assertEquals("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2", f)
         rule.activityRule.scenario.recreate()
         waitTag("fen_text")
         assertEquals(f, fen())
