@@ -5,22 +5,22 @@ durumlar `tools/status.json` içinde tutulur ve yalnızca gerçekten doğrulanan
 
 Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Test edildi → APK oluşturuldu → Teslim edildi
 
-**Özet:** 215 katalog uygulaması + App Center · APK'sı oluşturulan: 0
+**Özet:** 215 katalog uygulaması + App Center · APK'sı oluşturulan: 10
 
 ## 1. Günlük Yaşam (`01_Daily_Life`)
 
 | No | Uygulama | Paket | Durum | Not |
 |---|---|---|---|---|
-| 1 | Akıllı Hesap Makinesi | `com.galaxyoffline.calculator` | Test edildi | CI: derleme, denetim, emülatör testleri geçti |
-| 2 | Bilimsel Hesap Makinesi | `com.galaxyoffline.scientificcalculator` | Test edildi | CI: derleme, denetim, emülatör testleri geçti |
-| 3 | Not Defteri | `com.galaxyoffline.notes` | Test edildi | CI: derleme, denetim, emülatör testleri geçti |
-| 4 | Kişisel Günlük | `com.galaxyoffline.diary` | Kodlandı |  |
-| 5 | Yapılacaklar | `com.galaxyoffline.todo` | Kodlandı |  |
-| 6 | Alışveriş Listesi | `com.galaxyoffline.shoppinglist` | Kodlandı |  |
-| 7 | Hatırlatıcı | `com.galaxyoffline.reminder` | Kodlandı |  |
-| 8 | Takvim | `com.galaxyoffline.calendar` | Kodlandı |  |
-| 9 | Alarm | `com.galaxyoffline.alarm` | Kodlandı |  |
-| 10 | Kronometre | `com.galaxyoffline.stopwatch` | Kodlandı |  |
+| 1 | Akıllı Hesap Makinesi | `com.galaxyoffline.calculator` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 2 | Bilimsel Hesap Makinesi | `com.galaxyoffline.scientificcalculator` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 3 | Not Defteri | `com.galaxyoffline.notes` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 4 | Kişisel Günlük | `com.galaxyoffline.diary` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 5 | Yapılacaklar | `com.galaxyoffline.todo` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 6 | Alışveriş Listesi | `com.galaxyoffline.shoppinglist` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 7 | Hatırlatıcı | `com.galaxyoffline.reminder` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 8 | Takvim | `com.galaxyoffline.calendar` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 9 | Alarm | `com.galaxyoffline.alarm` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
+| 10 | Kronometre | `com.galaxyoffline.stopwatch` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
 | 11 | Geri sayım | — | Planlandı |  |
 | 12 | Dünya saati | — | Planlandı |  |
 | 13 | Tarih hesaplayıcı | — | Planlandı |  |

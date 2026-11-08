@@ -1,1 +1,42 @@
-{"1":{"state":"Test edildi","note":"CI: derleme, denetim, emülatör testleri geçti"},"2":{"state":"Test edildi","note":"CI: derleme, denetim, emülatör testleri geçti"},"3":{"state":"Test edildi","note":"CI: derleme, denetim, emülatör testleri geçti"},"4":{"state":"Kodlandı"},"5":{"state":"Kodlandı"},"6":{"state":"Kodlandı"},"7":{"state":"Kodlandı"},"8":{"state":"Kodlandı"},"9":{"state":"Kodlandı"},"10":{"state":"Kodlandı"}}
+{
+ "1": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "2": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "3": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "4": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "5": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "6": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "7": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "8": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "9": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "10": {
+  "state": "APK oluşturuldu",
+  "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ }
+}

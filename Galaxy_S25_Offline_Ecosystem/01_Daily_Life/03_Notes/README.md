@@ -10,7 +10,7 @@ Sabitleme, renk, arşiv, çöp kutusu ve aramalı gelişmiş not defteri.
 | Gradle modülü | `:notes` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Test edildi |
+| Durum | APK oluşturuldu |
 
 ## Özellikler
 - Otomatik kaydetme; başlık ve içerik, kelime/karakter sayısı

@@ -10,7 +10,7 @@ Kategorili, fiyat tahminli ve öneri destekli alışveriş listeleri.
 | Gradle modülü | `:shoppinglist` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Kodlandı |
+| Durum | APK oluşturuldu |
 
 ## Özellikler
 - Birden çok liste, ilerleme göstergesi

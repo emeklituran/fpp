@@ -10,7 +10,7 @@ Canlı sonuç önizlemeli, akıllı yüzde ve bellek tuşlu günlük hesap makin
 | Gradle modülü | `:smartcalculator` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Test edildi |
+| Durum | APK oluşturuldu |
 
 ## Özellikler
 - Yazarken canlı sonuç önizlemesi; işlem önceliği ve parantez desteği

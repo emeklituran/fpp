@@ -10,7 +10,7 @@ Turlu, uygulama kapansa bile süreyi koruyan, oturum geçmişli kronometre.
 | Gradle modülü | `:stopwatch` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Kodlandı |
+| Durum | APK oluşturuldu |
 
 ## Özellikler
 - Salise hassasiyeti; başlat, duraklat, tur, sıfırla

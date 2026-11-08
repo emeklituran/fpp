@@ -10,7 +10,7 @@ Haftanın günlerine göre tekrarlı, ertelemeli, tam ekran çalan alarm saati.
 | Gradle modülü | `:alarm` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Kodlandı |
+| Durum | APK oluşturuldu |
 
 ## Özellikler
 - Saat seçici, etiket, haftanın günleri, titreşim ve erteleme süresi

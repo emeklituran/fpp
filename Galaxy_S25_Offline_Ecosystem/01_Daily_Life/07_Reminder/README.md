@@ -10,7 +10,7 @@ Tekrarlı, ertelenebilir ve yeniden başlatmaya dayanıklı yerel hatırlatıcı
 | Gradle modülü | `:reminder` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Kodlandı |
+| Durum | APK oluşturuldu |
 
 ## Özellikler
 - Tarih ve saatli hatırlatmalar; tekrar: yok, her gün, her hafta, her ay, her yıl

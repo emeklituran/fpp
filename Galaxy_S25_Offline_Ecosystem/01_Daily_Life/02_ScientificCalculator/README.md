@@ -10,7 +10,7 @@ Trigonometri, logaritma, üs, kök, faktöriyel ve sabitlerle bilimsel hesap mak
 | Gradle modülü | `:scientificcalculator` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Test edildi |
+| Durum | APK oluşturuldu |
 
 ## Özellikler
 - sin, cos, tan ve tersleri (2nd), hiperbolik fonksiyonlar
