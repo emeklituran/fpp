@@ -69,4 +69,47 @@ Varsayım yapılmadı: Stockfish'in ayrı süreçte çalışması yükümlülük
   6. Paketleme: SHA256SUMS, BUILDINFO, karşılık gelen kaynak.
 - `.github/workflows/chess-engine.yml`: ayrı iş akışı; yalnızca `213_Chess/engine/**` değişince çalışır.
 
-**CI sonucu:** (aşağıda, gerçek çalıştırma bittikten sonra doldurulacak)
+**CI sonucu – Chess Engine #1 (başarılı):** https://github.com/emeklituran/fpp/actions/runs/42495424789
+Artefakt: `stockfish-android` (ikili dosyalar, SHA256SUMS, BUILDINFO, karşılık gelen kaynak paketi).
+
+| Kontrol | Sonuç |
+|---|---|
+| Kaynak commit doğrulaması | `edb0d9db…` eşleşti |
+| NNUE ağı | `nn-1a298aa575a0.nnue`, SHA-256 `1a298aa575a0…` (önek eşleşti) |
+| NDK | 27.2.12479018 (r27c), statik bağlantı |
+| Bench imzası (beklenen 2497913) | Linux sunucu **2497913** · Android arm64 (qemu altında) **2497913** · Android x86_64 **2497913** |
+| Stockfish `tests/perft.sh` (standart + Chess960, başlangıç d7 dahil) | Tümü OK |
+| Zor durumlar perft seti (14 konum) | **14/14** Stockfish ile eşleşti; bellekten yazdığım değerler artık Stockfish ile de doğrulandı |
+| İkili dosya boyutu | arm64 **103,4 MB**, x86_64 **102,5 MB** (ağ gömülü; ağın kendisi ≈100 MB) |
+
+Not: CI, ikili dosyaların Android'de **çalıştığını** değil, aynı makine kodunun doğru sonuç ürettiğini doğrular. arm64 ikilisi qemu ile, x86_64 ikilisi doğrudan çalıştırıldı. Gerçek Android sürecinde çalışma Faz 2'de emülatörde (x86_64) ve S25'te (arm64) doğrulanacak.
+
+## 5. Ortaya çıkan karar: boyut ve motorun çalıştırılma biçimi
+
+Ağ dosyası tek başına yaklaşık 100 MB tutuyor. Bu, önceki planda tahmin ettiğim "50–90 MB APK" değerini aşıyor. CI artefaktındaki sıkıştırma oranına göre ağ yalnızca yaklaşık %20 sıkışıyor.
+
+| Seçenek | APK indirme (tahmin) | Cihazda kaplanan alan (tahmin) | Artı / eksi |
+|---|---|---|---|
+| **A. Ayrı süreç** (önerilen, mevcut plan) | ≈85 MB | ≈190 MB (APK + çalıştırılabilir dosyanın çıkarılmış kopyası) | Motor çökerse uygulama ayakta kalır; zaman aşımında süreç öldürülüp yeniden başlatılabilir |
+| B. Aynı süreçte (JNI) | ≈100 MB | ≈100 MB (sıkıştırılmadan APK içinde, çıkarılmaz) | Yarı alan; motor hatası uygulamayı çökertir; Stockfish'in iç değişikliklerini gerektirir |
+| C. Ağ ayrı dosya (varlık) + küçük motor | ≈85 MB | ≈190 MB (ağ ilk açılışta kopyalanır) | A'ya göre kazanç yok, ilk açılış yavaş |
+
+Önerim **A**: güvenilirlik hedefine en uygun seçenek; S25'in depolama alanı için 190 MB kabul edilebilir. Debug APK (arm64 + x86_64) yaklaşık iki kat büyük olacak; yalnızca CI ve emülatör içindir.
+
+## 6. Ana CI'a etkisi
+
+Faz 1'de ana iş akışına ve ortak dosyalara hiçbir değişiklik yapılmadı. Bu commit ile ana CI (#20) da çalıştı:
+- Derleme ve izin denetimi: geçti.
+- Alışkanlık Takipçisi cihaz testi: başarısız. Neden: testteki bir yarış durumu ("Kitap oku" metni açık formda da bulunduğu için bekleme erken bitiyordu). Bu commit'le ilgisi yok; aynı kod CI #19'da geçmişti.
+- Test düzeltildi (`5c9d574`): artık listedeki satır bekleniyor. Yeniden doğrulama sonucu bu raporun sonuna eklenecek.
+
+## 7. Sonraki adım (Faz 2)
+
+1. chesslib 1.3.7 kaynağı değiştirilmeden `third_party/chesslib` altına alınır.
+2. `rules` modülü yazılır:
+   - Katı FEN çözümleyici ve doğrulayıcı.
+   - Üç düzeyli eşitlik (metinsel, konum kimliği, tam oyun durumu).
+   - Beraberlik kuralları: ölü pozisyon ile süre bitiminde "mat edemez" ayrı; 150 yarım hamle; 5 tekrar; talepler.
+3. `docs/f1-eval` testleri modül testlerine dönüştürülür. Hızlı perft seti her derlemede çalışır; derin set ayrı.
+4. Motor entegrasyonundan önce §5'teki boyut kararının onaylanması gerekiyor.
+
