@@ -42,6 +42,14 @@ jobs:
               "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" > keystore.properties
           fi
 
+      - name: Gradle dağıtımını indir (geçici sunucu hatalarına karşı yeniden dener)
+        run: |
+          for i in 1 2 3 4 5 6; do
+            ./gradlew --no-daemon --version && exit 0
+            echo "İndirme başarısız ($i/6), $((i * 20)) sn sonra yeniden denenecek"; sleep $((i * 20))
+          done
+          exit 1
+
       - name: Birim testleri
         run: ./gradlew --no-daemon test
 
