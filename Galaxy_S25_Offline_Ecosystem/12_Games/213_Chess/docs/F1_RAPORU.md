@@ -101,7 +101,7 @@ Ağ dosyası tek başına yaklaşık 100 MB tutuyor. Bu, önceki planda tahmin e
 Faz 1'de ana iş akışına ve ortak dosyalara hiçbir değişiklik yapılmadı. Bu commit ile ana CI (#20) da çalıştı:
 - Derleme ve izin denetimi: geçti.
 - Alışkanlık Takipçisi cihaz testi: başarısız. Neden: testteki bir yarış durumu ("Kitap oku" metni açık formda da bulunduğu için bekleme erken bitiyordu). Bu commit'le ilgisi yok; aynı kod CI #19'da geçmişti.
-- Test düzeltildi (`5c9d574`): artık listedeki satır bekleniyor. Yeniden doğrulama sonucu bu raporun sonuna eklenecek.
+- Test düzeltildi (`5c9d574`): artık listedeki satır bekleniyor. **Doğrulandı:** CI #21 (https://github.com/emeklituran/fpp/actions/runs/42496382486) – 20 uygulamanın tamamı derleme, denetim ve emülatör testlerinden geçti.
 
 ## 7. Sonraki adım (Faz 2)
 
@@ -113,3 +113,33 @@ Faz 1'de ana iş akışına ve ortak dosyalara hiçbir değişiklik yapılmadı.
 3. `docs/f1-eval` testleri modül testlerine dönüştürülür. Hızlı perft seti her derlemede çalışır; derin set ayrı.
 4. Motor entegrasyonundan önce §5'teki boyut kararının onaylanması gerekiyor.
 
+
+## 8. Faz 2 ilk adımı (tamamlandı): chesslib ve `rules` modülü
+
+- `third_party/chesslib`: 1.3.7 kaynağı, değiştirilmeden (`diff -r` ile birebir doğrulandı).
+- `rules` modülü (saf Kotlin, JVM):
+  - Katı FEN çözümleyici: 6 alan, alan bazında Türkçe hata mesajı.
+  - Konum doğrulayıcı: şah sayısı, 1./8. sırada piyon, taş ve piyon sayıları, terfiyle açıklanabilirlik, rok tutarlılığı, geçerken alma tutarlılığı, sırası olmayan tarafın şah altında olmaması, en fazla iki şah çeken taş.
+  - Üç eşitlik düzeyi: metinsel FEN, FIDE konum kimliği (yasal geçerken alma ile), tam oyun durumu.
+  - Beraberlik kuralları:
+    - Otomatik: mat, pat, 5 tekrar, 150 yarım hamle (son hamle matsa mat geçerli), kesin ölü pozisyonlar.
+    - Talep: 3 tekrar, 100 yarım hamle.
+    - Süre bitiminde "mat edemez" ayrı fonksiyon.
+- Ortak dosyalarda yalnızca ekleme yapıldı: `settings.gradle.kts` (2 modül satırı), `libs.versions.toml` (commons-lang3).
+
+**Testler:**
+
+| Test sınıfı | Test sayısı | Yerel | CI #22 |
+|---|---|---|---|
+| PerftTest (hızlı set, zor durumlar, oyun katmanı tutarlılığı) | 11 (+1 derin) | Geçti (3,4 sn) | Geçti |
+| PerftTest derin set (≈4,66 milyar düğüm) | 1 | Geçti (248 sn) | Ayrı çalıştırılacak (her derlemede değil) |
+| FenTest | 4 | Geçti | Geçti |
+| ValidatorTest | 3 (≈30 konum) | Geçti | Geçti |
+| EqualityTest | 5 | Geçti | Geçti |
+| DrawRulesTest | 9 | Geçti | Geçti |
+| RandomPlayoutTest (300 rastgele oyun, >30.000 konum) | 1 | Geçti | Geçti |
+
+- CI #22: https://github.com/emeklituran/fpp/actions/runs/42497536624
+  - Ana iş akışının tamamı başarılı: birim testleri (`./gradlew test`, `:chess-rules:test` dahil), derleme, denetim ve 20 uygulamanın emülatör testleri.
+  - Diğer uygulamalar etkilenmedi.
+- **Not:** Yerel testlerde iki hata çıktı; ikisi de benim test kodumdaki yanlış beklentiydi (sıra numarası ve şah altında olan bir "yasal" örnek konum). Kod doğru davranıyordu; testler düzeltildi.
