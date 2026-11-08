@@ -27,4 +27,8 @@ sha256sum -c SHA256SUMS.txt
 - Ancak sonraki bir CI çalıştırmasından gelen sürüm, eskisinin üzerine **güncelleme olarak kurulamaz**: önce eski sürümü kaldırmanız gerekir (veriler silinir).
 - Kalıcı anahtar kurulumu için `00_Project_Documentation/BUILD_AND_INSTALL.md` dosyasına bakın.
 
-Teslim edilen sürümlerin ayrıntılı listesi: `DELIVERY_REPORT_01-10.md`.
+Teslim edilen sürümlerin ayrıntılı listesi:
+- `DELIVERY_REPORT_01-10.md` – Uygulama 1–10 (Dalga 1)
+- `DELIVERY_REPORT_11-20.md` – Uygulama 11–20 (Dalga 2)
+
+En son doğrulanmış çalıştırma: CI #19 – https://github.com/emeklituran/fpp/actions/runs/42480565013 (20 uygulamanın tamamı derlendi, denetlendi ve emülatörde test edildi).

@@ -38,5 +38,45 @@
  "10": {
   "state": "APK oluşturuldu",
   "note": "CI #7: derleme, denetim, emülatör ve cihaz testleri geçti"
+ },
+ "81": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "88": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "61": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "159": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "107": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "37": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "52": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "19": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "103": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "11": {
+  "state": "APK oluşturuldu",
+  "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
  }
 }

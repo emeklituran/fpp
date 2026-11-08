@@ -5,7 +5,7 @@ durumlar `tools/status.json` içinde tutulur ve yalnızca gerçekten doğrulanan
 
 Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Test edildi → APK oluşturuldu → Teslim edildi
 
-**Özet:** 215 katalog uygulaması + App Center · APK'sı oluşturulan: 10
+**Özet:** 215 katalog uygulaması + App Center · APK'sı oluşturulan: 20
 
 ## 1. Günlük Yaşam (`01_Daily_Life`)
 
@@ -21,7 +21,7 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 8 | Takvim | `com.galaxyoffline.calendar` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
 | 9 | Alarm | `com.galaxyoffline.alarm` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
 | 10 | Kronometre | `com.galaxyoffline.stopwatch` | APK oluşturuldu | CI #7: derleme, denetim, emülatör ve cihaz testleri geçti |
-| 11 | Geri sayım | — | Planlandı |  |
+| 11 | Zamanlayıcı | `com.galaxyoffline.timer` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 12 | Dünya saati | — | Planlandı |  |
 | 13 | Tarih hesaplayıcı | — | Planlandı |  |
 | 14 | Yaş hesaplayıcı | — | Planlandı |  |
@@ -29,7 +29,7 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 16 | Özel gün takipçisi | — | Planlandı |  |
 | 17 | Doğum günü takipçisi | — | Planlandı |  |
 | 18 | Hedef takipçisi | — | Planlandı |  |
-| 19 | Alışkanlık takipçisi | — | Planlandı |  |
+| 19 | Alışkanlık Takipçisi | `com.galaxyoffline.habittracker` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 20 | Kişisel ajanda | — | Planlandı |  |
 
 ## 2. Akıllı Hesaplama Araçları (`02_Calculators`)
@@ -52,15 +52,15 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 34 | Su tüketim hesaplayıcı | — | Planlandı |  |
 | 35 | Ortalama hesaplayıcı | — | Planlandı |  |
 | 36 | Not ortalaması hesaplayıcı | — | Planlandı |  |
-| 37 | Birim dönüştürücü | — | Planlandı |  |
+| 37 | Birim Dönüştürücü | `com.galaxyoffline.unitconverter` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 38 | Para birimi dönüştürücü (manuel kur) | — | Planlandı |  |
-| 39 | Uzunluk dönüştürücü | — | Planlandı |  |
-| 40 | Ağırlık dönüştürücü | — | Planlandı |  |
-| 41 | Sıcaklık dönüştürücü | — | Planlandı |  |
-| 42 | Hacim dönüştürücü | — | Planlandı |  |
-| 43 | Alan dönüştürücü | — | Planlandı |  |
-| 44 | Hız dönüştürücü | — | Planlandı |  |
-| 45 | Veri boyutu dönüştürücü | — | Planlandı |  |
+| 39 | Uzunluk dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
+| 40 | Ağırlık dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
+| 41 | Sıcaklık dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
+| 42 | Hacim dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
+| 43 | Alan dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
+| 44 | Hız dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
+| 45 | Veri boyutu dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
 
 ## 3. Ev ve Yaşam Yönetimi (`03_Home_Life`)
 
@@ -72,11 +72,11 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 49 | Market alışverişi yöneticisi | — | Planlandı |  |
 | 50 | Ev envanter takipçisi | — | Planlandı |  |
 | 51 | Garanti süresi takipçisi | — | Planlandı |  |
-| 52 | Fatura takipçisi | — | Planlandı |  |
-| 53 | Abonelik ve ödeme hatırlatıcısı | — | Planlandı |  |
+| 52 | Fatura ve Abonelik | `com.galaxyoffline.billreminder` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
+| 53 | Abonelik ve ödeme hatırlatıcısı | — | APK oluşturuldu | No 52 (Fatura ve Abonelik) kapsamında |
 | 54 | Yemek planlayıcısı | — | Planlandı |  |
 | 55 | Tarif defteri | — | Planlandı |  |
-| 56 | Mutfak ölçü dönüştürücü | — | Planlandı |  |
+| 56 | Mutfak ölçü dönüştürücü | — | APK oluşturuldu | No 37 (Birim Dönüştürücü) kapsamında |
 | 57 | Porsiyon hesaplayıcı | — | Planlandı |  |
 | 58 | Son kullanma tarihi takipçisi | — | Planlandı |  |
 | 59 | Buzdolabı envanteri | — | Planlandı |  |
@@ -86,7 +86,7 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 
 | No | Uygulama | Paket | Durum | Not |
 |---|---|---|---|---|
-| 61 | Gelir gider takipçisi | — | Planlandı |  |
+| 61 | Gelir Gider | `com.galaxyoffline.incomeexpense` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 62 | Kişisel finans yöneticisi | — | Planlandı |  |
 | 63 | Aylık bütçe | — | Planlandı |  |
 | 64 | Borç alacak takipçisi | — | Planlandı |  |
@@ -111,14 +111,14 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 
 | No | Uygulama | Paket | Durum | Not |
 |---|---|---|---|---|
-| 81 | Şifre kasası | — | Planlandı |  |
+| 81 | Şifre Kasası | `com.galaxyoffline.passwordvault` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 82 | Güçlü şifre üretici | — | Planlandı |  |
 | 83 | Gizli not kasası | — | Planlandı |  |
 | 84 | Güvenli fotoğraf kasası | — | Planlandı |  |
 | 85 | Güvenli dosya kasası | — | Planlandı |  |
 | 86 | Dosya şifreleme | — | Planlandı |  |
 | 87 | Dosya şifre çözme | — | Planlandı |  |
-| 88 | TOTP doğrulama uygulaması | — | Planlandı |  |
+| 88 | Doğrulayıcı | `com.galaxyoffline.authenticator` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 89 | Yerel güvenlik kontrol aracı | — | Planlandı |  |
 | 90 | Şifre gücü analiz aracı | — | Planlandı |  |
 | 91 | Güvenli kimlik bilgisi saklama | — | Planlandı |  |
@@ -138,11 +138,11 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 100 | Fotoğraf sıkıştırıcı | — | Planlandı |  |
 | 101 | Fotoğraf boyutlandırıcı | — | Planlandı |  |
 | 102 | Fotoğraf kırpma aracı | — | Planlandı |  |
-| 103 | Ses kayıt cihazı | — | Planlandı |  |
+| 103 | Ses Kaydedici | `com.galaxyoffline.voicerecorder` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 104 | Ses oynatıcı | — | Planlandı |  |
 | 105 | Ses kesme aracı | — | Planlandı |  |
 | 106 | Video kesme aracı | — | Planlandı |  |
-| 107 | PDF okuyucu | — | Planlandı |  |
+| 107 | PDF Okuyucu | `com.galaxyoffline.pdfreader` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
 | 108 | PDF birleştirme | — | Planlandı |  |
 | 109 | PDF sayfa ayırma | — | Planlandı |  |
 | 110 | E-kitap okuyucu | — | Planlandı |  |
@@ -209,8 +209,8 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 156 | Metin biçimlendirici | — | Planlandı |  |
 | 157 | OCR metin tanıma | — | Planlandı |  |
 | 158 | Fotoğraftan yazı çıkarma | — | Planlandı |  |
-| 159 | QR kod üretici | — | Planlandı |  |
-| 160 | QR kod okuyucu | — | Planlandı |  |
+| 159 | QR Kod | `com.galaxyoffline.qrcode` | APK oluşturuldu | CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti |
+| 160 | QR kod okuyucu | — | APK oluşturuldu | No 159 (QR Kod) kapsamında |
 | 161 | Barkod okuyucu | — | Planlandı |  |
 | 162 | JSON görüntüleyici | — | Planlandı |  |
 | 163 | JSON düzenleyici | — | Planlandı |  |
@@ -229,7 +229,7 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 171 | Kelime ezberleme | — | Planlandı |  |
 | 172 | Flashcard uygulaması | — | Planlandı |  |
 | 173 | Ders çalışma zamanlayıcısı | — | Planlandı |  |
-| 174 | Pomodoro zamanlayıcısı | — | Planlandı |  |
+| 174 | Pomodoro zamanlayıcısı | — | APK oluşturuldu | No 11 (Zamanlayıcı) kapsamında |
 | 175 | Sınav geri sayımı | — | Planlandı |  |
 | 176 | Öğrenci not takipçisi | — | Planlandı |  |
 | 177 | Ders programı | — | Planlandı |  |
