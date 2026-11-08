@@ -47,6 +47,45 @@ GLYPHS = {
     ],
 }
 
+GLYPHS.update({
+    "vault": [
+        (S, "M54,26 l22,8 v16 c0,16 -10,26 -22,32 c-12,-6 -22,-16 -22,-32 v-16 z", 4),
+        (S, "M54,50 m-5,0 a5,5 0 1 1 10,0 a5,5 0 1 1 -10,0", 4), (S, "M54,55 v10", 4),
+    ],
+    "totp": [
+        (S, "M54,56 m-22,0 a22,22 0 1 1 44,0 a22,22 0 1 1 -44,0", 4), (S, "M54,56 v-14", 4), (S, "M54,56 l10,6", 4),
+        (S, "M42,28 h24", 4),
+    ],
+    "money": [
+        (S, "M30,36 h48 a4,4 0 0 1 4,4 v28 a4,4 0 0 1 -4,4 h-48 a4,4 0 0 1 -4,-4 v-28 a4,4 0 0 1 4,-4 z", 4),
+        (S, "M54,54 m-8,0 a8,8 0 1 1 16,0 a8,8 0 1 1 -16,0", 4), (S, "M34,44 v0 M74,64 v0", 6),
+    ],
+    "qr": [
+        (S, "M30,30 h16 v16 h-16 z M62,30 h16 v16 h-16 z M30,62 h16 v16 h-16 z", 4),
+        ("fill", "M36,36 h4 v4 h-4 z M68,36 h4 v4 h-4 z M36,68 h4 v4 h-4 z M62,62 h6 v6 h-6 z M72,72 h6 v6 h-6 z M72,62 h6 v6 h-6 z M62,72 h6 v6 h-6 z", 0),
+    ],
+    "pdf": [
+        (S, "M36,26 h24 l14,14 v40 a4,4 0 0 1 -4,4 h-34 a4,4 0 0 1 -4,-4 v-50 a4,4 0 0 1 4,-4 z", 4),
+        (S, "M60,26 v14 h14", 4), (S, "M42,58 h22 M42,68 h16", 4),
+    ],
+    "convert": [
+        (S, "M30,42 h44 l-10,-10", 5), (S, "M78,66 h-44 l10,10", 5),
+    ],
+    "bill": [
+        (S, "M36,26 h36 v56 l-6,-4 l-6,4 l-6,-4 l-6,4 l-6,-4 l-6,4 z", 4), (S, "M44,40 h20 M44,50 h20 M44,60 h12", 4),
+    ],
+    "habit": [
+        (S, "M54,54 m-24,0 a24,24 0 1 1 48,0 a24,24 0 1 1 -48,0", 4), (S, "M43,55 l8,8 l15,-17", 5),
+    ],
+    "mic": [
+        (S, "M46,28 h16 v26 a8,8 0 0 1 -16,0 z", 4), (S, "M38,52 a16,16 0 0 0 32,0", 4), (S, "M54,68 v12 M44,80 h20", 4),
+    ],
+    "timer": [
+        (S, "M54,58 m-22,0 a22,22 0 1 1 44,0 a22,22 0 1 1 -44,0", 4), (S, "M54,58 v-12", 4),
+        (S, "M48,28 h12", 4), (S, "M42,58 h0", 6),
+    ],
+})
+
 NO_PERMISSIONS = []
 
 APPS = {
@@ -213,5 +252,161 @@ APPS = {
             "Ekranı açık tutma ve titreşimli geri bildirim ayarları",
         ],
         limitations=["Çalışan kronometre için kalıcı bildirim yoktur (bildirim izni istememek için)."],
+    ),
+
+    81: dict(
+        module="passwordvault", dir="05_Security/81_PasswordVault", package="com.galaxyoffline.passwordvault",
+        name="Şifre Kasası", short="Kasa", accent=("#1B5E20", "#8BD48F"), glyph="vault", version=("1.0.0", 1), room=True,
+        permissions=[("USE_BIOMETRIC", "İsteğe bağlı: kasayı parmak izi veya yüz tanıma ile açmak için.")],
+        summary="Ana şifre ve AES-256-GCM ile şifrelenmiş, isteğe bağlı biyometrik kilitli çevrimdışı şifre kasası.",
+        features=[
+            "Ana şifreden PBKDF2-HMAC-SHA256 (310.000 tur) ile anahtar türetme; kayıtlar AES-256-GCM ile şifreli",
+            "İsteğe bağlı biyometrik açma: veri anahtarı Android Keystore'da donanım destekli, biyometriye bağlı anahtarla sarılır",
+            "Kayıt türleri: giriş, banka kartı, güvenli not, Wi-Fi, diğer; favoriler ve arama",
+            "Güçlü şifre üretici ve şifre gücü ölçer",
+            "Panoya kopyalama: hassas olarak işaretlenir, süre sonunda otomatik temizlenir",
+            "Otomatik kilit (arka planda süre), ekran görüntüsü engeli (FLAG_SECURE), hatalı denemede bekleme",
+            "Şifreli yedek dışa/içe aktarma (.gvault, ana şifre ile)",
+        ],
+        limitations=["Ana şifre unutulursa veriler kurtarılamaz (arka kapı yoktur).", "Tarayıcı/diğer uygulamalarda otomatik doldurma (Autofill) bu sürümde yok."],
+    ),
+    88: dict(
+        module="authenticator", dir="05_Security/88_Authenticator", package="com.galaxyoffline.authenticator",
+        name="Doğrulayıcı", short="2FA", accent=("#0D47A1", "#A6C8FF"), glyph="totp", version=("1.0.0", 1), room=True,
+        permissions=[("CAMERA", "İsteğe bağlı: hesap eklerken QR kodu taramak için."), ("USE_BIOMETRIC", "İsteğe bağlı uygulama kilidi için.")],
+        summary="RFC 6238 uyumlu, çevrimdışı iki adımlı doğrulama (TOTP) kod üretici.",
+        features=[
+            "QR kod tarama, galeriden QR görseli, otpauth bağlantısı yapıştırma veya elle ekleme",
+            "SHA1/SHA256/SHA512, 6–8 basamak, 30/60 sn periyot",
+            "Gizli anahtarlar Android Keystore anahtarıyla şifreli saklanır",
+            "Kodlar saniye saniye yenilenir; dokununca kopyalanır (pano otomatik temizlenir)",
+            "İsteğe bağlı uygulama kilidi (biyometri / ekran kilidi), ekran görüntüsü engeli",
+            "Şifreli yedek dışa/içe aktarma (parola ile)",
+        ],
+        limitations=["Kodlar telefon saatine dayanır; saat yanlışsa kodlar geçersiz olur (Ayarlar > Tarih ve saat > Otomatik).",
+                     "Sayaç tabanlı (HOTP) hesaplar desteklenmez."],
+    ),
+    61: dict(
+        module="incomeexpense", dir="04_Finance/61_IncomeExpense", package="com.galaxyoffline.incomeexpense",
+        name="Gelir Gider", short="Gelir Gider", accent=("#00695C", "#80CBC4"), glyph="money", version=("1.0.0", 1), room=True,
+        permissions=NO_PERMISSIONS,
+        summary="Kategorili gelir-gider kaydı, aylık özet, bütçe ve grafiklerle çevrimdışı para takibi.",
+        features=[
+            "Gelir ve gider kaydı: tutar, kategori, tarih, not, ödeme yöntemi",
+            "Aylık özet: toplam gelir, gider, net; önceki aya göre değişim",
+            "Kategori bazlı harcama grafiği ve aylık bütçe sınırları (aşım uyarısı)",
+            "Arama, filtreleme, düzenleme ve geri alınabilir silme",
+            "CSV dışa aktarma (Excel uyumlu, UTF-8)",
+        ],
+        limitations=["Banka hesaplarıyla senkronizasyon yoktur (internet yok); kayıtlar elle girilir.", "Tek para birimi (₺)."],
+    ),
+    159: dict(
+        module="qrcode", dir="09_Text_Documents/159_QrCode", package="com.galaxyoffline.qrcode",
+        name="QR Kod", short="QR", accent=("#37474F", "#B0BEC5"), glyph="qr", version=("1.0.0", 1), room=True,
+        permissions=[("CAMERA", "QR kod ve barkod taramak için. Görüntüler kaydedilmez, yalnızca cihazda işlenir.")],
+        summary="Çevrimdışı QR kod ve barkod okuyucu + QR üretici (katalog 159 ve 160).",
+        features=[
+            "Kamera ile QR ve barkod (EAN, UPC, Code 128/39, Data Matrix, PDF417, Aztec) okuma; fener desteği",
+            "Galeriden görsel seçerek okuma",
+            "İçerik türü tanıma: bağlantı, Wi-Fi, kişi kartı, telefon, e-posta, SMS, konum, metin",
+            "Bağlantıyı açmadan önce adres gösterilir (güvenlik); Wi-Fi şifresi kopyalanabilir",
+            "QR üretme: metin, bağlantı, Wi-Fi, kişi; görsel olarak kaydet veya paylaş",
+            "Tarama geçmişi (Room), silme ve temizleme",
+        ],
+        limitations=["Bağlantılar varsayılan tarayıcıda açılır; bu uygulama internete çıkmaz."],
+    ),
+    107: dict(
+        module="pdfreader", dir="06_Media/107_PdfReader", package="com.galaxyoffline.pdfreader",
+        name="PDF Okuyucu", short="PDF", accent=("#B71C1C", "#FFB4A9"), glyph="pdf", version=("1.0.0", 1), room=True,
+        permissions=NO_PERMISSIONS,
+        summary="Android'in yerleşik PDF motoruyla hızlı, izinsiz ve çevrimdışı PDF okuyucu.",
+        features=[
+            "Dosya seçici ile PDF açma (depolama izni gerekmez); diğer uygulamalardan \"Birlikte aç\"",
+            "Sayfa sayfa kaydırma, iki parmakla yakınlaştırma, sayfaya git",
+            "Son açılan dosyalar ve kaldığı sayfayı hatırlama",
+            "Gece modu (renkleri ters çevirme)",
+            "Paylaşma",
+        ],
+        limitations=["Metin seçme/arama ve form doldurma desteklenmez (yerleşik PDF motoru görüntü üretir).",
+                     "Parola korumalı PDF'ler açılamaz."],
+    ),
+    37: dict(
+        module="unitconverter", dir="02_Calculators/37_UnitConverter", package="com.galaxyoffline.unitconverter",
+        name="Birim Dönüştürücü", short="Dönüştürücü", accent=("#E65100", "#FFB77C"), glyph="convert", version=("1.0.0", 1), room=False,
+        permissions=NO_PERMISSIONS,
+        summary="Uzunluk, ağırlık, sıcaklık, hacim, alan, hız, veri, süre, enerji, basınç ve mutfak ölçüleri (katalog 37, 39–45, 56).",
+        features=[
+            "12 kategori, 100+ birim; anında çift yönlü dönüşüm",
+            "Tek girişte tüm birimlerin listesi",
+            "Favori dönüşümler ve son kullanılanlar",
+            "Türkçe sayı biçimi, kopyalama",
+        ],
+        limitations=["Para birimi dönüşümü bu uygulamada yoktur (canlı kur internet gerektirir; manuel kur uygulaması ayrıca planlanmıştır)."],
+    ),
+    52: dict(
+        module="billreminder", dir="03_Home_Life/52_BillReminder", package="com.galaxyoffline.billreminder",
+        name="Fatura ve Abonelik", short="Faturalar", accent=("#4E342E", "#D7B8A8"), glyph="bill", version=("1.0.0", 1), room=True,
+        permissions=[("POST_NOTIFICATIONS", "Son ödeme günü yaklaşınca bildirim göstermek için."),
+                     ("RECEIVE_BOOT_COMPLETED", "Telefon yeniden başlayınca günlük kontrolü yeniden kurmak için.")],
+        summary="Fatura ve abonelik takibi: son ödeme hatırlatması, ödendi işareti, aylık/yıllık maliyet özeti (katalog 52 ve 53).",
+        features=[
+            "Fatura/abonelik: ad, tutar, kategori, tekrar (aylık, 3 aylık, 6 aylık, yıllık, tek seferlik), son ödeme günü",
+            "\"Ödendi\" işareti ve ödeme geçmişi; bir sonraki dönem otomatik oluşur",
+            "Geciken ve yaklaşan ödemeler; aylık ve yıllık toplam maliyet",
+            "Günlük yerel kontrol ile X gün önce bildirim",
+        ],
+        limitations=["Bildirimler günde bir kez yapılan kontrolle gönderilir (tam dakika hassasiyeti gerekmez, ek izin istenmez)."],
+    ),
+    19: dict(
+        module="habittracker", dir="01_Daily_Life/19_HabitTracker", package="com.galaxyoffline.habittracker",
+        name="Alışkanlık Takipçisi", short="Alışkanlık", accent=("#558B2F", "#B5DA8C"), glyph="habit", version=("1.0.0", 1), room=True,
+        permissions=[("POST_NOTIFICATIONS", "İsteğe bağlı günlük hatırlatma için."),
+                     ("RECEIVE_BOOT_COMPLETED", "Yeniden başlatmadan sonra hatırlatmaları kurmak için.")],
+        summary="Günlük ve haftalık alışkanlıklar, seri takibi, takvim ısı haritası ve hatırlatmalar.",
+        features=[
+            "Alışkanlık: ad, simge rengi, haftanın günleri veya haftada X kez hedefi",
+            "Bugün ekranında tek dokunuşla işaretleme",
+            "Güncel ve en uzun seri, tamamlanma oranı, son 12 haftanın ısı haritası",
+            "İsteğe bağlı günlük hatırlatma saati",
+        ],
+        limitations=["Hatırlatmalar Android'in pil optimizasyonu nedeniyle birkaç dakika gecikebilir."],
+    ),
+    103: dict(
+        module="voicerecorder", dir="06_Media/103_VoiceRecorder", package="com.galaxyoffline.voicerecorder",
+        name="Ses Kaydedici", short="Ses Kayıt", accent=("#AD1457", "#FFB0CB"), glyph="mic", version=("1.0.0", 1), room=True,
+        permissions=[("RECORD_AUDIO", "Ses kaydı yapmak için."),
+                     ("FOREGROUND_SERVICE", "Ekran kapalıyken kaydın kesilmemesi için."),
+                     ("FOREGROUND_SERVICE_MICROPHONE", "Ön plan hizmetinin mikrofon türü (Android 14+)."),
+                     ("POST_NOTIFICATIONS", "Kayıt sürerken bildirimde durum ve durdurma düğmesi göstermek için.")],
+        summary="Yüksek kaliteli AAC ses kaydı, oynatma, yeniden adlandırma ve paylaşma; kayıtlar cihazda kalır.",
+        features=[
+            "Ön plan hizmetiyle kesintisiz kayıt (ekran kapalıyken de), duraklat/devam",
+            "Canlı ses seviyesi göstergesi ve süre",
+            "Kayıt listesi: oynat, ileri/geri sar, yeniden adlandır, sil, paylaş, Müzik klasörüne dışa aktar",
+            "Kalite seçimi (64 / 128 / 192 kbps)",
+        ],
+        limitations=["Telefon görüşmeleri kaydedilemez (Android kısıtlaması)."],
+    ),
+    11: dict(
+        module="timer", dir="01_Daily_Life/11_Timer", package="com.galaxyoffline.timer",
+        name="Zamanlayıcı", short="Zamanlayıcı", accent=("#FF6F00", "#FFCC80"), glyph="timer", version=("1.0.0", 1), room=True,
+        permissions=[
+            ("USE_EXACT_ALARM", "Süre dolduğunda tam zamanında çalmak için (zamanlayıcı uygulamalarına otomatik verilir)."),
+            ("SCHEDULE_EXACT_ALARM", "Android 12'de tam zamanlı alarm için (yalnızca API 31-32)."),
+            ("POST_NOTIFICATIONS", "Süre dolunca bildirim ve tam ekran uyarı göstermek için."),
+            ("USE_FULL_SCREEN_INTENT", "Kilit ekranında süre bitti uyarısı için."),
+            ("FOREGROUND_SERVICE", "Uyarı sesi çalarken uygulamanın kapanmaması için."),
+            ("FOREGROUND_SERVICE_MEDIA_PLAYBACK", "Ön plan hizmetinin ses çalma türü (Android 14+)."),
+            ("VIBRATE", "Uyarı titreşimi için."),
+            ("WAKE_LOCK", "Uyarı çalarken işlemcinin uyumaması için."),
+        ],
+        summary="Geri sayım zamanlayıcı ve Pomodoro: hazır süreler, kilit ekranında uyarı (katalog 11 ve 174).",
+        features=[
+            "Saat/dakika/saniye seçimi ve kayıtlı hazır süreler",
+            "Uygulama kapalıyken de doğru süre; bitince sesli ve titreşimli uyarı",
+            "+1 dk ekleme, duraklat/devam, sıfırla",
+            "Pomodoro modu: çalışma / kısa mola / uzun mola döngüsü ve tamamlanan oturum sayısı",
+        ],
+        limitations=["Aynı anda tek zamanlayıcı çalışır."],
     ),
 }

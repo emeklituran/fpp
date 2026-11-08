@@ -11,7 +11,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
-from catalog import CATALOG, CATEGORIES, DUPLICATES  # noqa: E402
+from catalog import CATALOG, CATEGORIES, COVERED_BY, DUPLICATES  # noqa: E402
 from apps import APPS, GLYPHS  # noqa: E402
 
 STATUS_FILE = os.path.join(ROOT, "tools", "status.json")
@@ -228,6 +228,10 @@ cd Galaxy_S25_Offline_Ecosystem
             note = st.get("note", "")
             if no in DUPLICATES:
                 note = f"No {DUPLICATES[no]} ile aynı uygulama (tek APK)"
+            if no in COVERED_BY:
+                cov = APPS.get(COVERED_BY[no])
+                note = f"No {COVERED_BY[no]} ({cov['name'] if cov else ''}) kapsamında"
+                st = status.get(COVERED_BY[no], st)
             lines.append(f"| {no} | {app['name'] if app else name} | {pkg} | {st.get('state', 'Planlandı')} | {note} |")
         lines.append("")
     lines += ["## 13. Galaxy Offline App Center (`13_App_Center`)", "", "| Uygulama | Durum |", "|---|---|",

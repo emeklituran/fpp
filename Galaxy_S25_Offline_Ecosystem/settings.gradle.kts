@@ -24,7 +24,7 @@ dependencyResolutionManagement {
 rootProject.name = "Galaxy_S25_Offline_Ecosystem"
 
 // Ortak modüller (uygulamalar bunlara derleme zamanında bağlanır; her APK bağımsızdır).
-include(":core:common", ":core:math", ":core:designsystem", ":core:calculator")
+include(":core:common", ":core:math", ":core:crypto", ":core:designsystem", ":core:calculator", ":core:security", ":core:scanner")
 
 // Bağımsız APK üreten uygulama modülleri: Gradle yolu -> klasör.
 // Liste `python3 tools/ecosystem.py modules` çıktısıyla uyumludur.
@@ -39,6 +39,7 @@ val apps = linkedMapOf(
     ":calendar" to "01_Daily_Life/08_Calendar",
     ":alarm" to "01_Daily_Life/09_Alarm",
     ":stopwatch" to "01_Daily_Life/10_Stopwatch",
+    ":passwordvault" to "05_Security/81_PasswordVault",
 )
 apps.forEach { (path, dir) ->
     include(path)

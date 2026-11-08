@@ -81,3 +81,6 @@ assert len(CATALOG) == 215, len(CATALOG)
 
 # Katalogdaki örtüşmeler: aynı uygulama bir kez geliştirilip iki yerde listelenir.
 DUPLICATES = {191: 131}
+
+# Başka bir uygulamanın kapsamında geliştirilenler: no -> kapsayan uygulama no
+COVERED_BY = {160: 159, 39: 37, 40: 37, 41: 37, 42: 37, 43: 37, 44: 37, 45: 37, 56: 37, 53: 52, 174: 11}
