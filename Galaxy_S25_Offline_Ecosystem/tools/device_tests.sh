@@ -6,7 +6,10 @@ set -uo pipefail
 CI=${1:?ci klasörü}
 SHARD=${2:-0}
 SHARDS=${3:-1}
-REPORT="$CI/device-$SHARD.md"
+# RETRY=1: yalnızca önceki denemede emülatör çöktüğü için test edilemeyen paketler (untested-<parça>.txt) denenir.
+RETRY=${RETRY:-0}
+UNTESTED="$CI/untested-$SHARD.txt"
+if [ "$RETRY" = 1 ]; then REPORT="$CI/device-$SHARD-tekrar.md"; else REPORT="$CI/device-$SHARD.md"; : > "$UNTESTED"; fi
 mkdir -p "$CI/screenshots"
 AAPT2=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -n 1)
 fail=0
@@ -41,16 +44,19 @@ for apk in "$CI"/release/*.apk; do
   idx=$((idx + 1))
   [ $(( (idx - 1) % SHARDS )) -ne "$SHARD" ] && continue
   pkg=$("$AAPT2" dump badging "$apk" | sed -n "s/^package: name='\([^']*\)'.*/\1/p")
+  if [ "$RETRY" = 1 ] && ! grep -qx "$pkg" "$UNTESTED.prev"; then continue; fi
   install="TAMAM"; launch="-"; crash="yok"; relaunch="-"; tests="-"
   if [ "$lost" = 1 ] || ! ensure_device; then
-    lost=1; fail=1
+    lost=1
+    echo "$pkg" >> "$UNTESTED"
     echo "| \`$pkg\` | TEST EDİLEMEDİ (emülatör bağlantısı koptu) | - | - | - | - |" >> "$REPORT"
     continue
   fi
   adb uninstall "$pkg" >/dev/null 2>&1 || true
-  if ! adb install "$apk" >/dev/null 2>&1; then
+  # -g: çalışma zamanı izinleri önceden verilir; aksi halde izin penceresi görevin üstünde kalır ve yeniden açılış ölçülemez.
+  if ! adb install -g "$apk" >/dev/null 2>&1; then
     ensure_device || true
-    adb install "$apk" >/dev/null 2>&1 || { install="BAŞARISIZ"; fail=1; }
+    adb install -g "$apk" >/dev/null 2>&1 || { install="BAŞARISIZ"; fail=1; }
   fi
   if [ "$install" = "TAMAM" ]; then
     activity=$(adb shell cmd package resolve-activity --brief -c android.intent.category.LAUNCHER "$pkg" | tail -n 1 | tr -d '\r')
@@ -90,4 +96,7 @@ for apk in "$CI"/release/*.apk; do
 done
 echo >> "$REPORT"
 cat "$REPORT"
+# Çıkış: 0 = hepsi geçti, 1 = test hatası, 2 = yalnızca emülatör çöktü (tekrar denenebilir), 3 = ikisi birden.
+[ "$lost" = 1 ] && fail=$((fail + 2))
+if [ "$RETRY" = 1 ]; then echo "$fail" > "$CI/status-$SHARD-tekrar.txt"; else echo "$fail" > "$CI/status-$SHARD.txt"; fi
 exit $fail

@@ -117,10 +117,40 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           working-directory: Galaxy_S25_Offline_Ecosystem
-          script: bash tools/device_tests.sh ../ci-artifact/build/ci ${{ matrix.shard }} 4
+          script: bash tools/device_tests.sh ../ci-artifact/build/ci ${{ matrix.shard }} 4 || true
+      - name: Emülatör çöktüyse test edilemeyenleri yeni emülatörde tekrar dene
+        id: retry_check
+        run: |
+          st=$(cat ../ci-artifact/build/ci/status-${{ matrix.shard }}.txt 2>/dev/null || echo 2)
+          echo "status=$st" >> "$GITHUB_OUTPUT"
+          if [ "$st" -ge 2 ]; then cp ../ci-artifact/build/ci/untested-${{ matrix.shard }}.txt ../ci-artifact/build/ci/untested-${{ matrix.shard }}.txt.prev; fi
+      - name: Tekrar deneme (yalnızca emülatör çökmesinden etkilenen paketler)
+        if: steps.retry_check.outputs.status >= 2
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          RETRY: 1
+        with:
+          api-level: 35
+          target: default
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 3072M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          working-directory: Galaxy_S25_Offline_Ecosystem
+          script: bash tools/device_tests.sh ../ci-artifact/build/ci ${{ matrix.shard }} 4 || true
+      - name: Sonuç
+        run: |
+          d=../ci-artifact/build/ci; s1=$(cat $d/status-${{ matrix.shard }}.txt 2>/dev/null || echo 2)
+          echo "İlk deneme durumu: $s1"
+          [ "$s1" = 1 ] || [ "$s1" = 3 ] && { echo "Cihaz testlerinde hata var"; exit 1; }
+          if [ "$s1" -ge 2 ]; then
+            s2=$(cat $d/status-${{ matrix.shard }}-tekrar.txt 2>/dev/null || echo 2)
+            echo "Tekrar deneme durumu: $s2"; [ "$s2" = 0 ] || exit 1
+          fi
       - name: Rapor
         if: always()
-        run: cat ../ci-artifact/build/ci/device-${{ matrix.shard }}.md >> "$GITHUB_STEP_SUMMARY" || true
+        run: cat ../ci-artifact/build/ci/device-${{ matrix.shard }}*.md >> "$GITHUB_STEP_SUMMARY" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
