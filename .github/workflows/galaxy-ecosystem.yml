@@ -93,7 +93,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1]
+        shard: [0, 1, 2, 3]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -117,7 +117,7 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           working-directory: Galaxy_S25_Offline_Ecosystem
-          script: bash tools/device_tests.sh ../ci-artifact/build/ci ${{ matrix.shard }} 2
+          script: bash tools/device_tests.sh ../ci-artifact/build/ci ${{ matrix.shard }} 4
       - name: Rapor
         if: always()
         run: cat ../ci-artifact/build/ci/device-${{ matrix.shard }}.md >> "$GITHUB_STEP_SUMMARY" || true
