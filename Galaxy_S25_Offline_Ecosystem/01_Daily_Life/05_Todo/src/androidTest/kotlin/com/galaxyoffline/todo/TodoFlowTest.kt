@@ -1,6 +1,7 @@
 package com.galaxyoffline.todo
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -14,10 +15,11 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TodoFlowTest {
     @get:Rule val rule = createAndroidComposeRule<MainActivity>()
+    private fun waitTag(tag: String) = rule.waitUntil(8_000) { rule.onAllNodesWithTag(tag).fetchSemanticsNodes().isNotEmpty() }
     private fun waitText(t: String) = rule.waitUntil(8_000) { rule.onAllNodesWithText(t, substring = true).fetchSemanticsNodes().isNotEmpty() }
 
     @Test fun addAndCompleteTask() {
-        waitText("Görevlerim")
+        waitTag("fab_new")
         rule.onNodeWithTag("fab_new").performClick()
         rule.onNodeWithTag("task_title").performTextInput("Faturayı öde")
         rule.onNodeWithTag("task_save").performClick()
