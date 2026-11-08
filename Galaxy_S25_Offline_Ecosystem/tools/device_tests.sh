@@ -8,7 +8,19 @@ REPORT="$CI/device.md"
 mkdir -p "$CI/screenshots"
 AAPT2=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -n 1)
 fail=0
-adb wait-for-device
+
+# Emülatör bağlantısı koparsa yeniden bağlanmayı dener (CI ortamındaki geçici sorunlara karşı).
+ensure_device() {
+  for _ in $(seq 1 36); do
+    if [ "$(adb get-state 2>/dev/null)" = "device" ] && [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ]; then
+      return 0
+    fi
+    adb reconnect offline >/dev/null 2>&1 || true
+    sleep 5
+  done
+  echo "Cihaz yanıt vermiyor"; return 1
+}
+ensure_device
 adb shell settings put global window_animation_scale 0 || true
 adb shell settings put global transition_animation_scale 0 || true
 adb shell settings put global animator_duration_scale 0 || true
@@ -24,8 +36,12 @@ adb shell settings put global animator_duration_scale 0 || true
 for apk in "$CI"/release/*.apk; do
   pkg=$("$AAPT2" dump badging "$apk" | sed -n "s/^package: name='\([^']*\)'.*/\1/p")
   install="TAMAM"; launch="-"; crash="yok"; relaunch="-"; tests="-"
+  ensure_device || true
   adb uninstall "$pkg" >/dev/null 2>&1 || true
-  if ! adb install "$apk" >/dev/null 2>&1; then install="BAŞARISIZ"; fail=1; fi
+  if ! adb install "$apk" >/dev/null 2>&1; then
+    ensure_device || true
+    adb install "$apk" >/dev/null 2>&1 || { install="BAŞARISIZ"; fail=1; }
+  fi
   if [ "$install" = "TAMAM" ]; then
     activity=$(adb shell cmd package resolve-activity --brief -c android.intent.category.LAUNCHER "$pkg" | tail -n 1 | tr -d '\r')
     adb logcat -c || true
@@ -44,6 +60,7 @@ for apk in "$CI"/release/*.apk; do
   fi
   # Cihaz üstü testler (varsa)
   if [ -f "$CI/debug/$pkg.test.apk" ]; then
+    ensure_device || true
     adb uninstall "$pkg" >/dev/null 2>&1 || true
     adb install "$CI/debug/$pkg.apk" >/dev/null && adb install "$CI/debug/$pkg.test.apk" >/dev/null
     out=$(adb shell am instrument -w "$pkg.test/androidx.test.runner.AndroidJUnitRunner" | tr -d '\r')
