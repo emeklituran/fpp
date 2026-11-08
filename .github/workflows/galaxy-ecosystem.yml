@@ -28,6 +28,9 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          # Bu dalda da önbellek yazılsın: dış indirme sunucusu kesintideyken sonraki çalıştırmalar etkilenmesin.
+          cache-read-only: false
 
       - name: İsteğe bağlı kalıcı imza anahtarı
         env:
@@ -44,9 +47,9 @@ jobs:
 
       - name: Gradle dağıtımını indir (geçici sunucu hatalarına karşı yeniden dener)
         run: |
-          for i in 1 2 3 4 5 6; do
+          for i in $(seq 1 20); do
             ./gradlew --no-daemon --version && exit 0
-            echo "İndirme başarısız ($i/6), $((i * 20)) sn sonra yeniden denenecek"; sleep $((i * 20))
+            echo "İndirme başarısız ($i/20), 60 sn sonra yeniden denenecek"; sleep 60
           done
           exit 1
 
