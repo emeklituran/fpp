@@ -64,7 +64,7 @@ for apk in "$CI"/release/*.apk; do
     t=$(adb shell am start -W -n "$activity" | sed -n 's/^TotalTime: //p' | tr -d '\r')
     launch="${t:-?} ms"
     sleep 4
-    adb exec-out screencap -p > "$CI/screenshots/$pkg.png" || true
+    [ "${NOSHOT:-0}" = 1 ] || adb exec-out screencap -p > "$CI/screenshots/$pkg.png" || true
     if adb logcat -d -b crash | grep -q "$pkg"; then crash="VAR"; fail=1; adb logcat -d -b crash | tail -n 40; fi
     [ -z "$(adb shell pidof "$pkg" | tr -d '\r')" ] && { crash="süreç kapandı"; fail=1; }
     # Uygulamayı tamamen kapatıp yeniden aç (veri kalıcılığı ve soğuk başlangıç).

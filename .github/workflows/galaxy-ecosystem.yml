@@ -129,6 +129,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         env:
           RETRY: 1
+          NOSHOT: 1
         with:
           api-level: 35
           target: default
@@ -136,7 +137,7 @@ jobs:
           profile: pixel_6
           ram-size: 3072M
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          emulator-options: -no-window -gpu swangle_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           working-directory: Galaxy_S25_Offline_Ecosystem
           script: bash tools/device_tests.sh ../ci-artifact/build/ci ${{ matrix.shard }} 4 || true
       - name: Sonuç
