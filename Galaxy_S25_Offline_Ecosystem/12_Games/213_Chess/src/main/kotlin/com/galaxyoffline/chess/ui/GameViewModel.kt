@@ -241,7 +241,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         val s = _state.value
         if (!u.final || u.fen != s.fen || !s.computerThinking) return
         _state.value = s.copy(computerThinking = false)
-        if (u.error != null) { messages.post(u.error); return }
+        u.error?.let { messages.post(it); return }
         // Bilgisayar, kendisi için değerlendirme ≤ 0 ise talep edilebilir beraberliği talep eder.
         val myScore = u.lines.firstOrNull()?.score
         val claim = s.status?.claimable?.firstOrNull()
