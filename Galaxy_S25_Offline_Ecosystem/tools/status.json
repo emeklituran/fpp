@@ -78,5 +78,9 @@
  "11": {
   "state": "APK oluşturuldu",
   "note": "CI #19: derleme, izin denetimi, emülatörde kurulum/açılış ve cihaz testi geçti"
+ },
+ "213": {
+  "state": "APK oluşturuldu",
+  "note": "v1.0 · CI #26: derleme, izin denetimi, Stockfish ikili doğrulaması, emülatörde kurulum/açılış (debug x86_64) ve 14 cihaz testi geçti; S25'te ölçülmedi"
  }
 }

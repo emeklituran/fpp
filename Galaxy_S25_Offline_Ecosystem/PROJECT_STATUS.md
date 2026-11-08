@@ -5,7 +5,7 @@ durumlar `tools/status.json` içinde tutulur ve yalnızca gerçekten doğrulanan
 
 Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Test edildi → APK oluşturuldu → Teslim edildi
 
-**Özet:** 215 katalog uygulaması + App Center · APK'sı oluşturulan: 20
+**Özet:** 215 katalog uygulaması + App Center · APK'sı oluşturulan: 21
 
 ## 1. Günlük Yaşam (`01_Daily_Life`)
 
@@ -278,7 +278,7 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 | 210 | Dikkat geliştirme oyunu | — | Planlandı |  |
 | 211 | Matematik oyunu | — | Planlandı |  |
 | 212 | Kelime oyunu | — | Planlandı |  |
-| 213 | Satranç (çevrimdışı) | — | Planlandı |  |
+| 213 | Satranç | `com.galaxyoffline.chess` | APK oluşturuldu | v1.0 · CI #26: derleme, izin denetimi, Stockfish ikili doğrulaması, emülatörde kurulum/açılış (debug x86_64) ve 14 cihaz testi geçti; S25'te ölçülmedi |
 | 214 | Basit dama | — | Planlandı |  |
 | 215 | Günlük beyin egzersizi | — | Planlandı |  |
 
