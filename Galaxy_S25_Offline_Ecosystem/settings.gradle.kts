@@ -52,6 +52,16 @@ val apps = linkedMapOf(
     ":voicerecorder" to "06_Media/103_VoiceRecorder",
     ":timer" to "01_Daily_Life/11_Timer",
 )
+// Satranç uygulamasına özel modüller (yalnızca 12_Games/213_Chess içinde; diğer uygulamalar kullanmaz).
+val chessModules = linkedMapOf(
+    ":chess-chesslib" to "12_Games/213_Chess/third_party/chesslib",
+    ":chess-rules" to "12_Games/213_Chess/rules",
+)
+chessModules.forEach { (path, dir) ->
+    include(path)
+    project(path).projectDir = file(dir)
+}
+
 apps.forEach { (path, dir) ->
     include(path)
     project(path).projectDir = file(dir)
