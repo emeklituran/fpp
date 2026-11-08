@@ -11,16 +11,16 @@ Durum sırası: Planlandı → Geliştiriliyor → Kodlandı → Derlendi → Te
 
 | No | Uygulama | Paket | Durum | Not |
 |---|---|---|---|---|
-| 1 | Akıllı Hesap Makinesi | `com.galaxyoffline.calculator` | Kodlandı |  |
-| 2 | Bilimsel Hesap Makinesi | `com.galaxyoffline.scientificcalculator` | Planlandı |  |
-| 3 | Not Defteri | `com.galaxyoffline.notes` | Planlandı |  |
-| 4 | Kişisel Günlük | `com.galaxyoffline.diary` | Planlandı |  |
-| 5 | Yapılacaklar | `com.galaxyoffline.todo` | Planlandı |  |
-| 6 | Alışveriş Listesi | `com.galaxyoffline.shoppinglist` | Planlandı |  |
-| 7 | Hatırlatıcı | `com.galaxyoffline.reminder` | Planlandı |  |
-| 8 | Takvim | `com.galaxyoffline.calendar` | Planlandı |  |
-| 9 | Alarm | `com.galaxyoffline.alarm` | Planlandı |  |
-| 10 | Kronometre | `com.galaxyoffline.stopwatch` | Planlandı |  |
+| 1 | Akıllı Hesap Makinesi | `com.galaxyoffline.calculator` | Test edildi | CI: derleme, denetim, emülatör testleri geçti |
+| 2 | Bilimsel Hesap Makinesi | `com.galaxyoffline.scientificcalculator` | Test edildi | CI: derleme, denetim, emülatör testleri geçti |
+| 3 | Not Defteri | `com.galaxyoffline.notes` | Test edildi | CI: derleme, denetim, emülatör testleri geçti |
+| 4 | Kişisel Günlük | `com.galaxyoffline.diary` | Kodlandı |  |
+| 5 | Yapılacaklar | `com.galaxyoffline.todo` | Kodlandı |  |
+| 6 | Alışveriş Listesi | `com.galaxyoffline.shoppinglist` | Kodlandı |  |
+| 7 | Hatırlatıcı | `com.galaxyoffline.reminder` | Kodlandı |  |
+| 8 | Takvim | `com.galaxyoffline.calendar` | Kodlandı |  |
+| 9 | Alarm | `com.galaxyoffline.alarm` | Kodlandı |  |
+| 10 | Kronometre | `com.galaxyoffline.stopwatch` | Kodlandı |  |
 | 11 | Geri sayım | — | Planlandı |  |
 | 12 | Dünya saati | — | Planlandı |  |
 | 13 | Tarih hesaplayıcı | — | Planlandı |  |

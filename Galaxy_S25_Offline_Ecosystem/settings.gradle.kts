@@ -32,6 +32,13 @@ val apps = linkedMapOf(
     ":smartcalculator" to "01_Daily_Life/01_SmartCalculator",
     ":scientificcalculator" to "01_Daily_Life/02_ScientificCalculator",
     ":notes" to "01_Daily_Life/03_Notes",
+    ":diary" to "01_Daily_Life/04_Diary",
+    ":todo" to "01_Daily_Life/05_Todo",
+    ":shoppinglist" to "01_Daily_Life/06_ShoppingList",
+    ":reminder" to "01_Daily_Life/07_Reminder",
+    ":calendar" to "01_Daily_Life/08_Calendar",
+    ":alarm" to "01_Daily_Life/09_Alarm",
+    ":stopwatch" to "01_Daily_Life/10_Stopwatch",
 )
 apps.forEach { (path, dir) ->
     include(path)

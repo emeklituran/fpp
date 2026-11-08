@@ -10,7 +10,7 @@ Ay görünümü, ajanda ve tekrarlı etkinliklerle yerel takvim.
 | Gradle modülü | `:calendar` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Planlandı |
+| Durum | Kodlandı |
 
 ## Özellikler
 - Pazartesi ile başlayan ay görünümü, bugün vurgusu, etkinlik noktaları

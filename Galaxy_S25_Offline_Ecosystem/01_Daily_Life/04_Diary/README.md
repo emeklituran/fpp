@@ -10,7 +10,7 @@ Ruh hali kayıtlı, aranabilir ve istatistikli kişisel günlük.
 | Gradle modülü | `:diary` |
 | Minimum Android | 12 (API 31) · Hedef: Android 16 (API 36) |
 | İnternet | Yok (INTERNET izni yok, CI ile doğrulanır) |
-| Durum | Planlandı |
+| Durum | Kodlandı |
 
 ## Özellikler
 - Tarihli günlük kayıtları, 5 seviyeli ruh hali
