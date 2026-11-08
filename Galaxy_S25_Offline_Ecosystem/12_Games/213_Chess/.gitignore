@@ -1,0 +1,2 @@
+# Stockfish ikilileri (≈100 MB/ABI) depoya konmaz; engine/build_stockfish.sh ile üretilir.
+engine/prebuilt/

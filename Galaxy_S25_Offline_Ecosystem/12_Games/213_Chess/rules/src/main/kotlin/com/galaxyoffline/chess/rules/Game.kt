@@ -75,8 +75,25 @@ class Game private constructor(val start: FenPosition) {
 
     private fun sanOf(m: Move): String = MoveList(board.getFen(true)).apply { add(m) }.toSanArray()[0]
 
+    /** Aynı başlangıç ve hamlelerle bağımsız bir kopya (varyant önizleme gibi işlemler asıl oyunu değiştirmez). */
+    fun copy(): Game = replay(Fen.write(start), history())!!
+
+    /** Verilen UCI hamle dizisinin mevcut konumdan SAN gösterimi; yasal olmayan ilk hamlede durur. Asıl oyun değişmez. */
+    fun sanLine(uciMoves: List<String>): List<String> {
+        val g = copy(); val out = mutableListOf<String>()
+        for (m in uciMoves) { val san = g.san(m) ?: break; if (!g.play(m)) break; out += san }
+        return out
+    }
+
     companion object {
         fun standard(): Game = (fromFen(Fen.START) as GameLoad.Ok).game
+
+        /** Başlangıç FEN'i ve UCI hamlelerinden oyunu yeniden kurar; geçersiz FEN veya yasal olmayan hamlede null. */
+        fun replay(startFen: String, uciMoves: List<String>): Game? {
+            val g = (fromFen(startFen) as? GameLoad.Ok)?.game ?: return null
+            for (m in uciMoves) if (!g.play(m)) return null
+            return g
+        }
 
         fun fromFen(text: String): GameLoad = when (val r = Fen.parse(text)) {
             is FenResult.Error -> GameLoad.InvalidFen(r.error)

@@ -45,6 +45,25 @@ jobs:
               "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" > keystore.properties
           fi
 
+      - name: Stockfish ikilileri (Satranç uygulaması; önbellekten, yoksa derlenip doğrulanır)
+        id: sf_cache
+        uses: actions/cache@v4
+        with:
+          path: Galaxy_S25_Offline_Ecosystem/12_Games/213_Chess/engine/prebuilt
+          key: stockfish-${{ hashFiles('Galaxy_S25_Offline_Ecosystem/12_Games/213_Chess/engine/stockfish.env', 'Galaxy_S25_Offline_Ecosystem/12_Games/213_Chess/engine/build_stockfish.sh', 'Galaxy_S25_Offline_Ecosystem/12_Games/213_Chess/engine/perft_tricky.txt') }}
+
+      - name: Stockfish derleme (önbellekte yoksa)
+        if: steps.sf_cache.outputs.cache-hit != 'true'
+        working-directory: Galaxy_S25_Offline_Ecosystem/12_Games/213_Chess/engine
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q qemu-user-static expect
+          source stockfish.env
+          for i in 1 2 3 4 5; do
+            echo "y" | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK_VERSION" >/dev/null && break
+            echo "NDK indirilemedi ($i/5)"; sleep 30
+          done
+          ./build_stockfish.sh "$PWD/prebuilt"
+
       - name: Gradle dağıtımını indir (geçici sunucu hatalarına karşı yeniden dener)
         run: |
           for i in $(seq 1 20); do
@@ -64,6 +83,12 @@ jobs:
 
       - name: APK denetimi (izinler, INTERNET, yasaklı SDK)
         run: tools/audit_apks.sh build/ci
+
+      - name: Satranç motoru için GPL-3 karşılık gelen kaynak paketi (APK'larla aynı artefakta)
+        run: |
+          cp 12_Games/213_Chess/engine/prebuilt/stockfish-*-corresponding-source.tar.gz build/ci/release/
+          cp 12_Games/213_Chess/engine/prebuilt/BUILDINFO.txt build/ci/release/STOCKFISH_BUILDINFO.txt
+          ( cd build/ci/release && sha256sum stockfish-*-corresponding-source.tar.gz >> SHA256SUMS.txt )
 
       - name: Rapor
         if: always()

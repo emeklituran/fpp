@@ -53,12 +53,21 @@ for apk in "$CI"/release/*.apk; do
     continue
   fi
   adb uninstall "$pkg" >/dev/null 2>&1 || true
-  # -g: çalışma zamanı izinleri önceden verilir; aksi halde izin penceresi görevin üstünde kalır ve yeniden açılış ölçülemez.
-  if ! adb install -g "$apk" >/dev/null 2>&1; then
-    ensure_device || true
-    adb install -g "$apk" >/dev/null 2>&1 || { install="BAŞARISIZ"; fail=1; }
+  # Yerel kodu emülatör mimarisini içermeyen release APK'lar (ör. yalnızca arm64 Satranç) x86_64 emülatöre kurulamaz:
+  # açılış/yeniden açılış denetimi aynı paketin debug APK'sıyla yapılır ve raporda açıkça belirtilir.
+  smoke_apk="$apk"
+  native=$("$AAPT2" dump badging "$apk" | sed -n "s/^native-code: //p" | tr -d "'")
+  dev_abi=$(adb shell getprop ro.product.cpu.abi | tr -d '\r')
+  if [ -n "$native" ] && ! echo " $native " | grep -q " $dev_abi "; then
+    if [ -f "$CI/debug/$pkg.apk" ]; then smoke_apk="$CI/debug/$pkg.apk"; install="release yalnızca $native → debug APK ile"
+    else install="KURULAMAZ (release yalnızca $native)"; fail=1; fi
   fi
-  if [ "$install" = "TAMAM" ]; then
+  # -g: çalışma zamanı izinleri önceden verilir; aksi halde izin penceresi görevin üstünde kalır ve yeniden açılış ölçülemez.
+  if [ "${install#KURULAMAZ}" = "$install" ] && ! adb install -g "$smoke_apk" >/dev/null 2>&1; then
+    ensure_device || true
+    adb install -g "$smoke_apk" >/dev/null 2>&1 || { install="BAŞARISIZ"; fail=1; }
+  fi
+  if [ "$install" = "TAMAM" ] || [ "${install#release yalnızca}" != "$install" ]; then
     activity=$(adb shell cmd package resolve-activity --brief -c android.intent.category.LAUNCHER "$pkg" | tail -n 1 | tr -d '\r')
     adb logcat -c || true
     t=$(adb shell am start -W -n "$activity" | sed -n 's/^TotalTime: //p' | tr -d '\r')

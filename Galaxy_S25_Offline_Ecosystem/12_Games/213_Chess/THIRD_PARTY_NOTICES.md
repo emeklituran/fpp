@@ -10,3 +10,5 @@ Bu uygulamanın kendi kaynak kodu **GNU GPL sürüm 3** ile lisanslanmıştır (
 | Apache Commons Lang | 3.12.0 | Apache-2.0 | chesslib bağımlılığı | Faz 2 |
 
 Apache-2.0 lisanslı bileşenler GPL-3 ile birleştirilebilir. Uygulamanın "Hakkında › Açık kaynak lisansları" ekranında tüm lisans metinleri ve Apache NOTICE dosyaları gösterilecektir.
+
+| cburnett taş seti (Colin M.L. Burnett) | lichess-org/lila `ea908493` | GPLv2+ | Tahtadaki taş görselleri (VectorDrawable'a çevrildi) | Eklendi |
