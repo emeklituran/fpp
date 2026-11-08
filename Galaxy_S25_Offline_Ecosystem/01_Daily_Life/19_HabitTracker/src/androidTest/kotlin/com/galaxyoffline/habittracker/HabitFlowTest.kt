@@ -21,7 +21,8 @@ class HabitFlowTest {
         rule.onNodeWithTag("fab_new").performSemanticsAction(SemanticsActions.OnClick)
         rule.onNodeWithTag("habit_name").performTextInput("Kitap oku")
         rule.onNodeWithTag("habit_save").performSemanticsAction(SemanticsActions.OnClick)
-        rule.waitUntil(10_000) { rule.onAllNodesWithText("Kitap oku").fetchSemanticsNodes().isNotEmpty() }
+        // "Kitap oku" metni açık formdaki alanda da bulunduğundan listedeki satırın kendisi beklenir.
+        rule.waitUntil(10_000) { rule.onAllNodesWithTag("check_1").fetchSemanticsNodes().isNotEmpty() }
         rule.onNodeWithTag("check_1").performSemanticsAction(SemanticsActions.OnClick)
         rule.waitUntil(10_000) { rule.onAllNodesWithText("🔥 1 gün seri", substring = true).fetchSemanticsNodes().isNotEmpty() }
     }
