@@ -14,6 +14,9 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
         dependencies.add("implementation", catalog.lib("androidx-room-runtime"))
         dependencies.add("implementation", catalog.lib("androidx-room-ktx"))
         dependencies.add("ksp", catalog.lib("androidx-room-compiler"))
+        // Debug ve release KSP görevleri aynı şema dosyasını (schemas/<db>/<sürüm>.json) yazar/okur.
+        // Paralel çalışırlarsa biri yarım yazılmış dosyayı okuyup "EOF" hatası verir; bu yüzden sıralanır.
+        tasks.matching { it.name == "kspReleaseKotlin" }.configureEach { mustRunAfter("kspDebugKotlin") }
         Unit
     }
 }
