@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Emülatörde: her release APK kurulur, soğuk başlatılır, çökme denetlenir, ekran görüntüsü alınır;
+# ardından debug APK + test APK ile cihaz üstü (instrumentation) testler çalıştırılır.
+# Kullanım: tools/device_tests.sh <ci_klasörü>
+set -uo pipefail
+CI=${1:?ci klasörü}
+REPORT="$CI/device.md"
+mkdir -p "$CI/screenshots"
+AAPT2=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -n 1)
+fail=0
+adb wait-for-device
+adb shell settings put global window_animation_scale 0 || true
+adb shell settings put global transition_animation_scale 0 || true
+adb shell settings put global animator_duration_scale 0 || true
+{
+  echo "# Cihaz test raporu"
+  echo
+  echo "Emülatör: Android $(adb shell getprop ro.build.version.release | tr -d '\r') (API $(adb shell getprop ro.build.version.sdk | tr -d '\r')), $(adb shell wm size | tr -d '\r')"
+  echo
+  echo "| Paket | Kurulum | Açılış (soğuk) | Çökme | Yeniden açılış | Cihaz testleri |"
+  echo "|---|---|---|---|---|---|"
+} > "$REPORT"
+
+for apk in "$CI"/release/*.apk; do
+  pkg=$("$AAPT2" dump badging "$apk" | sed -n "s/^package: name='\([^']*\)'.*/\1/p")
+  install="TAMAM"; launch="-"; crash="yok"; relaunch="-"; tests="-"
+  adb uninstall "$pkg" >/dev/null 2>&1 || true
+  if ! adb install "$apk" >/dev/null 2>&1; then install="BAŞARISIZ"; fail=1; fi
+  if [ "$install" = "TAMAM" ]; then
+    activity=$(adb shell cmd package resolve-activity --brief -c android.intent.category.LAUNCHER "$pkg" | tail -n 1 | tr -d '\r')
+    adb logcat -c || true
+    t=$(adb shell am start -W -n "$activity" | sed -n 's/^TotalTime: //p' | tr -d '\r')
+    launch="${t:-?} ms"
+    sleep 4
+    adb exec-out screencap -p > "$CI/screenshots/$pkg.png" || true
+    if adb logcat -d -b crash | grep -q "$pkg"; then crash="VAR"; fail=1; adb logcat -d -b crash | tail -n 40; fi
+    [ -z "$(adb shell pidof "$pkg" | tr -d '\r')" ] && { crash="süreç kapandı"; fail=1; }
+    # Uygulamayı tamamen kapatıp yeniden aç (veri kalıcılığı ve soğuk başlangıç).
+    adb shell am force-stop "$pkg"
+    t2=$(adb shell am start -W -n "$activity" | sed -n 's/^TotalTime: //p' | tr -d '\r')
+    sleep 2
+    [ -n "$(adb shell pidof "$pkg" | tr -d '\r')" ] && relaunch="TAMAM (${t2:-?} ms)" || { relaunch="BAŞARISIZ"; fail=1; }
+    adb shell am force-stop "$pkg"
+  fi
+  # Cihaz üstü testler (varsa)
+  if [ -f "$CI/debug/$pkg.test.apk" ]; then
+    adb uninstall "$pkg" >/dev/null 2>&1 || true
+    adb install "$CI/debug/$pkg.apk" >/dev/null && adb install "$CI/debug/$pkg.test.apk" >/dev/null
+    out=$(adb shell am instrument -w "$pkg.test/androidx.test.runner.AndroidJUnitRunner" | tr -d '\r')
+    echo "----- $pkg instrumentation -----"; echo "$out" | tail -n 30
+    if echo "$out" | grep -q "^OK ("; then tests="GEÇTİ $(echo "$out" | grep -o 'OK ([0-9]* tests\?)')"
+    else tests="KALDI"; fail=1; fi
+    adb uninstall "$pkg.test" >/dev/null 2>&1 || true
+  fi
+  echo "| \`$pkg\` | $install | $launch | $crash | $relaunch | $tests |" >> "$REPORT"
+done
+echo >> "$REPORT"
+cat "$REPORT"
+exit $fail
