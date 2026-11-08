@@ -72,7 +72,7 @@ for apk in "$CI"/release/*.apk; do
   if [ -f "$CI/debug/$pkg.test.apk" ]; then
     ensure_device || true
     adb uninstall "$pkg" >/dev/null 2>&1 || true
-    adb install "$CI/debug/$pkg.apk" >/dev/null && adb install "$CI/debug/$pkg.test.apk" >/dev/null
+    adb install -g "$CI/debug/$pkg.apk" >/dev/null && adb install "$CI/debug/$pkg.test.apk" >/dev/null
     out=$(timeout 240 adb shell am instrument -w "$pkg.test/androidx.test.runner.AndroidJUnitRunner" | tr -d '\r')
     echo "----- $pkg instrumentation -----"; echo "$out" | tail -n 30
     if echo "$out" | grep -q "^OK ("; then tests="GEÇTİ $(echo "$out" | grep -o 'OK ([0-9]* tests\?)')"

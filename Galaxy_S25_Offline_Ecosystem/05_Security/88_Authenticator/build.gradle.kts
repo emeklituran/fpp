@@ -13,5 +13,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
+    implementation(project(":core:security"))
+    implementation(project(":core:scanner"))
+    testImplementation(libs.org.json)
 }
