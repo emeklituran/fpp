@@ -1,0 +1,28 @@
+SATRANÇ (com.galaxyoffline.chess) – AÇIK KAYNAK BİLDİRİMLERİ
+
+Bu uygulama GNU Genel Kamu Lisansı sürüm 3 (GPL-3) ile lisanslanmıştır. Kaynak kodu ve uygulamadaki
+Stockfish ikili dosyasının karşılık gelen kaynağı (stockfish-sf_19-corresponding-source.tar.gz), APK ile
+aynı yerden (GitHub Actions "galaxy-release-apks" artefaktı) sunulur. Uygulama kaynak kodu:
+Galaxy_S25_Offline_Ecosystem/12_Games/213_Chess. Kaynaktan kendiniz derleyip kendi anahtarınızla
+kurabilirsiniz (bkz. 00_Project_Documentation/BUILD_AND_INSTALL.md).
+
+Kullanılan bileşenler:
+
+• Stockfish 19 (sf_19, commit edb0d9db) ve NNUE ağı nn-1a298aa575a0.nnue
+  Stockfish, a UCI chess playing engine derived from Glaurung 2.1
+  Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
+  Lisans: GNU GPL sürüm 3 veya sonrası. Ayrı süreç olarak çalışır; ağ bağlantısı kullanmaz.
+
+• chesslib 1.3.7 (GitHub: bhlangonijr/chesslib, geliştiricisi ve katkıda bulunanlar)
+  Lisans: Apache License 2.0. Kaynak değiştirilmeden kullanılmıştır.
+
+• Apache Commons Lang 3.12.0 – Lisans: Apache License 2.0 (NOTICE metni aşağıda)
+
+• cburnett taş seti – Colin M.L. Burnett. Lisans: GNU GPL sürüm 2 veya sonrası.
+  Kaynak: lichess-org/lila public/piece/cburnett; SVG'ler VectorDrawable biçimine çevrildi.
+
+• AndroidX, Jetpack Compose, Kotlin – Apache License 2.0
+
+Lisans metinleri aşağıdadır: Apache Commons Lang NOTICE, GNU GPL sürüm 3, Apache License 2.0.
+GNU GPL sürüm 2 metni: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt (cburnett taşları
+"sürüm 2 veya sonrası" lisanslıdır ve bu uygulamada GPL-3 koşullarıyla dağıtılır).

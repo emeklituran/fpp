@@ -1,0 +1,13 @@
+plugins { kotlin("jvm") version "2.2.0" }
+repositories { maven("https://maven-central.storage-download.googleapis.com/maven2/") }
+sourceSets { main { java.srcDir("/home/user/bhlangonijr/chesslib/src/main/java") } }
+dependencies {
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    testImplementation("junit:junit:4.13.2")
+}
+java { toolchain { } }
+tasks.test {
+    maxHeapSize = "2g"
+    testLogging { events("passed", "failed"); showStandardStreams = true; exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL }
+    systemProperty("deep", System.getProperty("deep") ?: "false"); systemProperty("d7", System.getProperty("d7") ?: "false")
+}
