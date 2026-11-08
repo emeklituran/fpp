@@ -135,7 +135,9 @@ class ChessFlowTest {
 
     @Test fun editorRejectsIllegalAndAcceptsLegal() {
         waitTag("menu"); rule.onNodeWithTag("menu").performClick(); rule.onNodeWithTag("m_editor").performClick()
-        waitTag("editor_clear"); rule.onNodeWithTag("editor_clear").performClick()
+        waitTag("editor_fen"); rule.waitForIdle()
+        rule.onNodeWithTag("editor_clear").performScrollTo().performClick()
+        rule.waitUntil(5_000) { text("editor_fen").startsWith("8/8/8/8/8/8/8/8 ") }
         rule.onNodeWithTag("editor_analyze").performScrollTo().performClick()
         waitTag("editor_problems") // boş tahta: şah yok → reddedilir, düzenleyicide kalınır
         rule.onNodeWithTag("brush_K").performScrollTo().performClick(); rule.onNodeWithTag("sq_e1").performScrollTo().performClick()
