@@ -30,6 +30,8 @@ include(":core:common", ":core:math", ":core:designsystem", ":core:calculator")
 // Liste `python3 tools/ecosystem.py modules` çıktısıyla uyumludur.
 val apps = linkedMapOf(
     ":smartcalculator" to "01_Daily_Life/01_SmartCalculator",
+    ":scientificcalculator" to "01_Daily_Life/02_ScientificCalculator",
+    ":notes" to "01_Daily_Life/03_Notes",
 )
 apps.forEach { (path, dir) ->
     include(path)

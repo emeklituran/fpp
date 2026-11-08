@@ -43,13 +43,13 @@ jobs:
           fi
 
       - name: Birim testleri
-        run: ./gradlew --no-daemon --stacktrace test
+        run: ./gradlew --no-daemon test
 
       - name: Reklam/analiz/telemetri bağımlılık denetimi
         run: ./gradlew --no-daemon verifyNoTrackers
 
       - name: APK derleme (release + debug + cihaz testleri)
-        run: ./gradlew --no-daemon --stacktrace assembleRelease assembleDebug assembleDebugAndroidTest
+        run: ./gradlew --no-daemon assembleRelease assembleDebug assembleDebugAndroidTest
 
       - name: APK denetimi (izinler, INTERNET, yasaklı SDK)
         run: tools/audit_apks.sh build/ci

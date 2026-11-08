@@ -43,6 +43,7 @@ sealed interface Key {
     data object MemorySubtract : Key
     data object ToggleAngle : Key
     data object ToggleInverse : Key
+    data object Exponent : Key
 }
 
 data class CalcUiState(
@@ -103,6 +104,7 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
             Key.Backspace -> if (s.justEvaluated) "" else ExpressionEditor.backspace(e)
             Key.Clear -> ""
             Key.Sign -> ExpressionEditor.toggleSign(e)
+            Key.Exponent -> ExpressionEditor.exponent(e)
             Key.Equals -> { evaluate(); return }
             Key.MemoryClear -> { saveMemory(null); return }
             Key.MemoryRecall -> {

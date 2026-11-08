@@ -28,10 +28,10 @@ object Galaxy {
     )
 }
 
-val Project.libs: VersionCatalog
+internal val Project.catalog: VersionCatalog
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-fun VersionCatalog.lib(alias: String) = findLibrary(alias).orElseThrow {
+internal fun VersionCatalog.lib(alias: String) = findLibrary(alias).orElseThrow {
     IllegalStateException("Sürüm kataloğunda '$alias' bulunamadı")
 }
 
@@ -74,7 +74,7 @@ internal fun Project.configureAndroidCommon(ext: CommonExtension<*, *, *, *, *, 
     }
     configureKotlin()
 
-    val bom = dependencies.platform(libs.lib("androidx-compose-bom"))
+    val bom = dependencies.platform(catalog.lib("androidx-compose-bom"))
     dependencies.add("implementation", bom)
     dependencies.add("androidTestImplementation", bom)
     listOf(
@@ -82,10 +82,10 @@ internal fun Project.configureAndroidCommon(ext: CommonExtension<*, *, *, *, *, 
         "androidx-lifecycle-viewmodel-compose", "androidx-activity-compose", "androidx-compose-ui",
         "androidx-compose-ui-graphics", "androidx-compose-ui-tooling-preview", "androidx-compose-material3",
         "androidx-compose-material-icons-extended",
-    ).forEach { dependencies.add("implementation", libs.lib(it)) }
-    dependencies.add("debugImplementation", libs.lib("androidx-compose-ui-tooling"))
-    dependencies.add("debugImplementation", libs.lib("androidx-compose-ui-test-manifest"))
-    dependencies.add("testImplementation", libs.lib("junit"))
+    ).forEach { dependencies.add("implementation", catalog.lib(it)) }
+    dependencies.add("debugImplementation", catalog.lib("androidx-compose-ui-tooling"))
+    dependencies.add("debugImplementation", catalog.lib("androidx-compose-ui-test-manifest"))
+    dependencies.add("testImplementation", catalog.lib("junit"))
     listOf("androidx-test-core", "androidx-test-runner", "androidx-test-ext-junit", "androidx-compose-ui-test-junit4", "junit")
-        .forEach { dependencies.add("androidTestImplementation", libs.lib(it)) }
+        .forEach { dependencies.add("androidTestImplementation", catalog.lib(it)) }
 }

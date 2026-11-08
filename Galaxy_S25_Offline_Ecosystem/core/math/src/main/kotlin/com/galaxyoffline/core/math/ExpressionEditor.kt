@@ -61,7 +61,20 @@ object ExpressionEditor {
     fun open(e: String) = if (e.length >= MAX_LENGTH) e else e + "("
     fun close(e: String) = if (openCount(e) > 0 && endsWithOperand(e)) e + ")" else e
 
-    fun function(e: String, name: String): String = if (e.length >= MAX_LENGTH) e else e + name
+    /** Fonksiyon/parça ekler. "10^(" gibi rakamla başlayan parça bir sayının ardına gelirse araya × konur. */
+    fun function(e: String, name: String): String {
+        if (e.length >= MAX_LENGTH) return e
+        val needsTimes = name.first().isDigit() && e.isNotEmpty() && (e.last().isDigit() || e.last() == '.')
+        return if (needsTimes) e + "×" + name else e + name
+    }
+
+    /** Bilimsel gösterim "E": yalnızca bir rakamdan sonra ve sayıda henüz E yoksa. */
+    fun exponent(e: String): String {
+        if (e.isEmpty() || !e.last().isDigit()) return e
+        val run = e.takeLastWhile { it.isDigit() || it == '.' }
+        val before = e.dropLast(run.length)
+        return if (before.endsWith("E") || before.endsWith("E−") || before.endsWith("E+")) e else e + "E"
+    }
 
     fun constant(e: String, c: String): String = if (e.length >= MAX_LENGTH) e else e + c
 

@@ -32,4 +32,13 @@ class ExpressionEditorTest {
         assertEquals("5%", E.postfix("5%", '%'))
         assertEquals("+", E.postfix("+", '!'))
     }
+
+    @Test fun exponentAndImplicitTimes() {
+        assertEquals("5×10^(", E.function("5", "10^("))
+        assertEquals("sin(", E.function("", "sin("))
+        assertEquals("1E", E.exponent("1"))
+        assertEquals("1E5", E.exponent("1E5"))
+        assertEquals("", E.exponent(""))
+        assertEquals("1E−", E.operator("1E", '−'))
+    }
 }

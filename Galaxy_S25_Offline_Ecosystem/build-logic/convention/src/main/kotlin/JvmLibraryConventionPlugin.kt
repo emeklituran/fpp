@@ -12,7 +12,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
             targetCompatibility = Galaxy.JAVA
         }
         configureKotlin()
-        dependencies.add("testImplementation", libs.lib("junit"))
+        dependencies.add("testImplementation", catalog.lib("junit"))
         Unit
     }
 }

@@ -11,9 +11,9 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             arg("room.schemaLocation", "${projectDir}/schemas")
             arg("room.generateKotlin", "true")
         }
-        dependencies.add("implementation", libs.lib("androidx-room-runtime"))
-        dependencies.add("implementation", libs.lib("androidx-room-ktx"))
-        dependencies.add("ksp", libs.lib("androidx-room-compiler"))
+        dependencies.add("implementation", catalog.lib("androidx-room-runtime"))
+        dependencies.add("implementation", catalog.lib("androidx-room-ktx"))
+        dependencies.add("ksp", catalog.lib("androidx-room-compiler"))
         Unit
     }
 }
