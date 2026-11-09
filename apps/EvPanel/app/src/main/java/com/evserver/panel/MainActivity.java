@@ -95,11 +95,14 @@ public class MainActivity extends Activity {
     private void baglan(final boolean ilkAcilis) {
         if (araniyor) return;
         araniyor = true;
-        if (ilkAcilis) bilgiSayfasi("Sunucu aranıyor…", "Ev ağı ve Tailscale deneniyor.", false);
+        if (ilkAcilis) bilgiSayfasi("Sunucu aranıyor…", "Ev ağı ve Tailscale deneniyor. Mobil veride bu birkaç saniye sürebilir.", false);
         new Thread(() -> {
             String bulunan = null;
-            for (String a : ADRESLER) {
-                if (ulasilabilir(a)) { bulunan = a; break; }
+            // Ev adresi hızlı cevap verir; Tailscale mobil veride ilk bağlantıyı birkaç saniyede kurabilir.
+            // Bu yüzden Tailscale için daha uzun bekle ve bir kez daha dene.
+            if (ulasilabilir(ADRESLER[0], 1500, 2500)) bulunan = ADRESLER[0];
+            for (int deneme = 0; bulunan == null && deneme < 2; deneme++) {
+                if (ulasilabilir(ADRESLER[1], 8000, 8000)) bulunan = ADRESLER[1];
             }
             final String sonuc = bulunan;
             runOnUiThread(() -> {
@@ -123,12 +126,12 @@ public class MainActivity extends Activity {
         }).start();
     }
 
-    private static boolean ulasilabilir(String adres) {
+    private static boolean ulasilabilir(String adres, int baglanmaMs, int okumaMs) {
         HttpURLConnection c = null;
         try {
             c = (HttpURLConnection) new URL(adres + "/api/ozet").openConnection();
-            c.setConnectTimeout(1500);
-            c.setReadTimeout(2500);
+            c.setConnectTimeout(baglanmaMs);
+            c.setReadTimeout(okumaMs);
             c.setInstanceFollowRedirects(false);
             int kod = c.getResponseCode();
             return kod == 200 || kod == 401;   // 401 = panel orada, şifre istiyor
