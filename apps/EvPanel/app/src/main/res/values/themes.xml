@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PanelTema" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/arkaplan</item>
+        <item name="android:statusBarColor">@color/arkaplan</item>
+        <item name="android:navigationBarColor">@color/arkaplan</item>
+        <item name="android:colorAccent">@color/vurgu</item>
+    </style>
+    <color name="arkaplan">#0F1115</color>
+    <color name="vurgu">#34C38F</color>
+    <color name="ikon_zemin">#123227</color>
+</resources>

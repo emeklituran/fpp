@@ -1,0 +1,60 @@
+name: evserver Panel APK
+
+on:
+  push:
+    paths:
+      - "apps/EvPanel/**"
+      - ".github/workflows/evpanel-apk.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: evpanel-apk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: APK derle ve yayınla
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/EvPanel
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10.2"
+
+      - name: Derle
+        run: gradle --no-daemon assembleRelease
+
+      - name: APK'yı hazırla
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/evserver-panel.apk"
+          sha256sum "$GITHUB_WORKSPACE/evserver-panel.apk"
+          ls -lh "$GITHUB_WORKSPACE/evserver-panel.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evserver-panel-apk
+          path: evserver-panel.apk
+
+      - name: Sabit indirme bağlantısına yayınla (evpanel-son)
+        working-directory: ${{ github.workspace }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete evpanel-son --yes --cleanup-tag || true
+          gh release create evpanel-son evserver-panel.apk \
+            --target "$GITHUB_SHA" \
+            --title "evserver Panel (sürüm 1.0.${GITHUB_RUN_NUMBER})" \
+            --notes "evserver kontrol paneli Android uygulaması. Her derlemede bu sürüm yenilenir." \
+            --prerelease

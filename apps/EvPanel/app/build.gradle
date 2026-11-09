@@ -1,0 +1,43 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "com.evserver.panel"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.evserver.panel"
+        minSdk 26
+        // 34: Android 15'in zorunlu kenardan kenara düzeni WebView'i durum çubuğunun altına itmesin
+        targetSdk 34
+        versionCode Integer.parseInt(System.getenv("GITHUB_RUN_NUMBER") ?: "1")
+        versionName "1.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
+    }
+
+    // Sadece bu kişisel panel uygulaması için ayrılmış imza anahtarı.
+    // Aynı anahtar her derlemede kullanıldığı için yeni sürüm eskisinin üstüne kurulabilir.
+    signingConfigs {
+        panel {
+            storeFile file("evpanel.jks")
+            storePassword "evpanel-imza"
+            keyAlias "evpanel"
+            keyPassword "evpanel-imza"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.panel
+        }
+        debug {
+            signingConfig signingConfigs.panel
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 108dp ızgara; içerik ortadaki 66dp güvenli alanda. İki sunucu rafı. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#34C38F"
+        android:pathData="M36,35h36a4,4 0,0 1,4 4v8a4,4 0,0 1,-4 4h-36a4,4 0,0 1,-4 -4v-8a4,4 0,0 1,4 -4z" />
+    <path
+        android:fillColor="#34C38F"
+        android:fillAlpha="0.6"
+        android:pathData="M36,57h36a4,4 0,0 1,4 4v8a4,4 0,0 1,-4 4h-36a4,4 0,0 1,-4 -4v-8a4,4 0,0 1,4 -4z" />
+    <path
+        android:fillColor="#123227"
+        android:pathData="M41,43m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+    <path
+        android:fillColor="#123227"
+        android:pathData="M41,65m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+</vector>
